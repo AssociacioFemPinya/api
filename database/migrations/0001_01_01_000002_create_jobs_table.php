@@ -10,6 +10,9 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+
+        /* ONLY IF USING QUEUE JOBS */
+
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -49,6 +52,9 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+
+        /* ONLY IF USING QUEUE JOBS */
+
         Schema::dropIfExists('jobs');
         Schema::dropIfExists('job_batches');
         Schema::dropIfExists('failed_jobs');

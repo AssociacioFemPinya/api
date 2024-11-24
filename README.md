@@ -1,66 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Com començo?
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![PHP 8.3](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php)
+![Laravel 8](https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel)
+![Mysql 10](https://img.shields.io/badge/Mysql-8.0-003545?logo=mariadb)
 
-## About Laravel
+## Creació de l'entorn
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Opció 1 — Docker (RECOMANADA)
+![Linux] ![Windows+WSL2] ![Docker]
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### Requisits:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Docker:
+  - Windows: [Docker Desktop 2.0+](https://www.docker.com/products/docker-desktop) + [WSL2](https://aka.ms/vscode-remote/containers/docker-wsl2)
+  - Linux: [Docker CE/EE 18.06+](https://docs.docker.com/install/#supported-platforms) + [Docker Compose 1.21+](https://docs.docker.com/compose/install)
 
-## Learning Laravel
+#### Passos:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clona aquest repositori al teu ordinador:
+   ```shell
+   git clone https://github.com/AssociacioFemPinya/api.git
+   cd api
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. Crea el fitxer .env 
+   - Copia el fitxer .env.example a .env
+   - Emplena les variables necessàries (En general, les de l'apartat `APP CONFIG`)
+   - A les variables referents a la BBDD, elegeis si vols utilitzar la BBDD del Fempinya o bé crear-ne una de nova
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+3. Engega els containers
+    A la carpeta on hi ha el repositori clonat:
+   ```shell
+   docker compose up -d
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. Instal·la dependències
+   Dins del container:
+   ```shell
+   composer install
+   ```
 
-### Premium Partners
+4. Continua amb la [configuració inicial](#configuració-inicial)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Opció 2 — Directe
+![Linux] ![Windows]
 
-## Contributing
+#### Requisits:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- [PHP 8.3](https://www.php.net/) + `pdo_mysql`, `mbstring`, `exif`, `pcntl`, `bcmath`, `gd`, `zip` i `curl`
+- [Composer](https://getcomposer.org/)
+- [Mysql .0](https://www.mysql.com/)
 
-## Code of Conduct
+#### Passos:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. Clona aquest repositori al teu ordinador:
+   ```shell
+   git clone https://github.com/AssociacioFemPinya/api.git
+   cd api
+   ```
 
-## Security Vulnerabilities
+2. Crea el fitxer .env 
+   - Copia el fitxer .env.example a .env
+   - Emplena les variables necessàries (En general, les de l'apartat `APP CONFIG`)
+   - A les variables referents a la BBDD, elegeis si vols utilitzar la BBDD del Fempinya o bé crear-ne una de nova   
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Crea 2 bases de dades a MariaDB: `fempinya` i `testing`:
+   ```sql
+   CREATE DATABASE `fempinya`;
+   GRANT ALL PRIVILEGES ON `fempinya`.* TO '$DB_USERNAME'@'%';
+   CREATE DATABASE `testing`;
+   GRANT ALL PRIVILEGES ON `testing`.* TO '$DB_USERNAME'@'%';
+   ```
 
-## License
+4. Instal·la les dependències:
+   ```shell
+   composer install
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Inicia el servidor de desenvolupament:
+   ```shell
+   php artisan serve
+   ```
+
+6. Continua amb la [configuració inicial](#configuració-inicial)
+
+
+## Configuració inicial
+
+Si fas servir docker, executa-ho dins del container:
+
+1. Prepara l'app:
+   ```shell
+   php artisan key:generate
+   ```
+2. Prepara la BBDD:
+
+   - Si fas servir una BBDD nova, revisa les migrations per elegir què vols crear-hi i després executa:
+   ```shell
+   php artisan key:generate
+   ```   
+   - Si fas servir la BBDD de Fempinya, no cal que facis res  
+
+## Executar tests
+
+Pots executar els tests amb:
+
+```shell
+php artisan test
+```
+
+## Netejar el codi
+
+Per mantenir el codi net i ordenat, executa el Pint de Laravel abans de crear la PR:
+```shell
+./vendor/bin/pint
+```
+
+[Linux]: https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=000
+[Windows]: https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=fff
+[Windows+WSL2]: https://img.shields.io/static/v1?label=Windows&message=WSL2&color=FCC624&logo=windows&labelColor=0078D6
+[Docker]: https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff

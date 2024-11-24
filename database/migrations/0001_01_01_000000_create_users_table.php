@@ -10,6 +10,9 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+
+        /* MANAGING API USERS */
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -26,6 +29,8 @@ return new class () extends Migration {
             $table->timestamp('created_at')->nullable();
         });
 
+        /* ONLY IF WANT TO STORE SESSIONS ON DB */
+
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -34,6 +39,7 @@ return new class () extends Migration {
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
     }
 
     /**
@@ -41,8 +47,14 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+
+        /* MANAGING API USERS */
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
+
+        /* ONLY IF WANT TO STORE SESSIONS ON DB */
+
         Schema::dropIfExists('sessions');
     }
 };
