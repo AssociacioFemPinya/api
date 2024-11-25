@@ -22,7 +22,7 @@ services:
             - ./docker-config/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
             - ./docker-config/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
         networks:
-            - app-network
+            - sail
 
     #Nginx
     webserver:
@@ -37,7 +37,7 @@ services:
             - ./docker-config/nginx/default.conf:/etc/nginx/conf.d/default.conf
             - ./:/var/www/html
         networks:
-            - app-network
+            - sail
 
     #MySQL
     db:
@@ -46,7 +46,7 @@ services:
         restart: unless-stopped
         tty: true
         ports:
-            - "${DB_PORT}:3306"
+            - "${MYSQL_EXPOSED_PORT}:3306"
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -56,12 +56,14 @@ services:
             - ./docker-config/mysql/data:/var/lib/mysql/
             - ./docker-config/mysql/my.cnf:/etc/mysql/my.cnf
         networks:
-            - app-network
+            - sail
 
 #Networks
 networks:
-    app-network:
+    sail:
         driver: bridge
+        name: sail
+        
 #Volumes
 volumes:
     dbdata:
