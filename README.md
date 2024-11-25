@@ -98,7 +98,7 @@ Si fas servir docker, executa-ho dins del container:
 
    - Si fas servir una BBDD nova, revisa les migrations per elegir què vols crear-hi i després executa:
    ```shell
-   php artisan key:generate
+   php artisan artisan migrate
    ```   
    - Si fas servir la BBDD de Fempinya, no cal que facis res  
 
