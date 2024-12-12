@@ -6,7 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use Illuminate\Database\Eloquent\Model;
 
-#[ApiResource]
+// #[ApiResource]
 class Casteller extends Model
 {
     protected $table = 'castellers';
