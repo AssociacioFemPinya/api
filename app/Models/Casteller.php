@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class Casteller extends Model
 {
     protected $table = 'castellers';
+    protected $primaryKey = 'id_casteller';
+
 
     #[ApiProperty(identifier: true)]
     private int $id_casteller;

@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Colla extends Model
 {
     protected $table = 'colles';
+    protected $primaryKey = 'id_colla';
+
 
     #[ApiProperty(identifier: true)]
     private int $id_colla;

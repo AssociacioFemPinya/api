@@ -5,8 +5,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 
 return [
-    'title' => 'API Platform',
-    'description' => 'My awesome API',
+    'title' => 'Fempinya API',
+    'description' => 'API de l\'App Fempinya',
     'version' => '1.0.0',
 
     'routes' => [

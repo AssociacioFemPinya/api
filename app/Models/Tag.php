@@ -15,23 +15,43 @@ use ApiPlatform\Metadata\QueryParameter;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     shortName: 'Tag',
-    normalizationContext: ['jsonld_embed_code' => true],
+    normalizationContext: ['groups' => ['event']],
     operations: [
         new Get(
+            read: false,
+            write: false
         ),
-        new GetCollection(
-        ),
+        new GetCollection(       
+            read: false,
+            write: false                 
+        )
     ],
 )]
 class Tag extends Model
 {
     protected $table = 'tags'; 
+    protected $primaryKey = 'id_tag';
 
+    #[Groups('event')]
     #[ApiProperty(identifier: true)]
     private int $id_tag;
+
+    #[Groups('event')]
+    private string $name;
+    
+    #[Groups('event')]
+    private string $value;
+
+    #[Groups('event')]
+    private int $group;
+
+    #[Groups('event')]
+    private string $type;
+    
 
     public function event(): ?BelongsToMany
     {

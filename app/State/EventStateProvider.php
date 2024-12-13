@@ -31,23 +31,29 @@ final class EventStateProvider implements ProviderInterface
         if ($operation instanceof CollectionOperationInterface) {
 
             $paginator = $this->collectionProvider->provide($operation, $uriVariables, $context);
+
+            $events = [];
             
-            Log::info(Auth::user());
+            foreach ($paginator as $pagine){
+
+                $events[] = $pagine;
+                // do stuff
+            }
 
             // do stuff
 
-            return $paginator;
+            return $events;
 
             
         }else{
 
             $event = $this->itemProvider->provide($operation, $uriVariables, $context);
 
-            // do stuff
-
             if (!$event) {
                 return null;
             }
+
+            // do stuff
 
             return $event;
 
