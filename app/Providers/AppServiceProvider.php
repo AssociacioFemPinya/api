@@ -21,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-		$this->app->tag(EventStateProvider::class, ProviderInterface::class);
+        $this->app->tag(EventStateProvider::class, ProviderInterface::class);
     }
 }

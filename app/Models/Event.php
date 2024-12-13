@@ -5,27 +5,17 @@ namespace App\Models;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 use Illuminate\Database\Eloquent\Model;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
 use App\Dtos\EventDto;
 use App\State\EventStateProvider;
 use ApiPlatform\Laravel\Eloquent\Filter\PartialSearchFilter;
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
-use ApiPlatform\Laravel\Eloquent\Filter\RangeFilter;
-use ApiPlatform\Serializer\Filter\PropertyFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\QueryParameter;
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 use Illuminate\Database\Eloquent\Collection;
-
-use App\Enums\TypeTags;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ApiResource(
@@ -44,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
                 'collaId' => new QueryParameter(filter: EqualsFilter::class),
                 'type' => new QueryParameter(filter: EqualsFilter::class),
             ],
-            provider: EventStateProvider::class,            
+            provider: EventStateProvider::class,
         ),
     ],
 )]
@@ -63,28 +53,28 @@ class Event extends Model
 
     #[SerializedName('title')]
     #[Groups('event')]
-    private ?string $name;    
+    private ?string $name;
 
     #[Groups('event')]
-    private ?\DateTime $start_date;       
-    
-    #[Groups('event')]
-    private ?string $status; 
-    
-    #[Groups('event')]
-    private ?string $type; 
-    
-    #[Groups('event')]
-    private ?string $comments;     
+    private ?\DateTime $start_date;
 
     #[Groups('event')]
-    private ?string $address;    
-    
-    #[Groups('event')]
-    private ?int $companions;     
+    private ?string $status;
 
     #[Groups('event')]
-    private ?bool $visibility;     
+    private ?string $type;
+
+    #[Groups('event')]
+    private ?string $comments;
+
+    #[Groups('event')]
+    private ?string $address;
+
+    #[Groups('event')]
+    private ?int $companions;
+
+    #[Groups('event')]
+    private ?bool $visibility;
 
 
     // Relations
@@ -100,4 +90,3 @@ class Event extends Model
 
 
 }
-

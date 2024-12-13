@@ -7,7 +7,6 @@ use ApiPlatform\Metadata\ApiProperty;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 // #[ApiResource]
 class Colla extends Model
 {

@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Dtos;
-use Symfony\Component\Validator\Constraints as Assert;
+
 abstract class BaseDto
 {
-
     /**
      * Get the instance as an array.
      *
