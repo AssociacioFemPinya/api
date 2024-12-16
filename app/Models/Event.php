@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 #[ApiResource]
 class Event extends Model
 {
+    protected $connection = 'mysql';
     protected $table = 'events';
 
     #[ApiProperty(identifier: true)]

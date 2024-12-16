@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 #[ApiResource]
 class Casteller extends Model
 {
+    protected $connection = 'mysql';
     protected $table = 'castellers';
 
     #[ApiProperty(identifier: true)]

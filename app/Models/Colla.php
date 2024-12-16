@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 #[ApiResource]
 class Colla extends Model
 {
+    protected $connection = 'mysql';
     protected $table = 'colles';
 
     #[ApiProperty(identifier: true)]

@@ -13,7 +13,7 @@ return new class () extends Migration {
 
         /* MANAGING API USERS */
 
-        Schema::create('users', function (Blueprint $table) {
+        Schema::connection('mysql_api')->create('users_api', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -23,7 +23,7 @@ return new class () extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
+        Schema::connection('mysql_api')->create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
@@ -31,9 +31,9 @@ return new class () extends Migration {
 
         /* ONLY IF WANT TO STORE SESSIONS ON DB */
 
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::connection('mysql_api')->create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignId('user_api_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
@@ -50,11 +50,11 @@ return new class () extends Migration {
 
         /* MANAGING API USERS */
 
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
+        Schema::connection('mysql_api')->dropIfExists('users');
+        Schema::connection('mysql_api')->dropIfExists('password_reset_tokens');
 
         /* ONLY IF WANT TO STORE SESSIONS ON DB */
 
-        Schema::dropIfExists('sessions');
+        Schema::connection('mysql_api')->dropIfExists('sessions');
     }
 };
