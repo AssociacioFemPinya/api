@@ -3,15 +3,31 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use App\Picts\ApiUserCasteller;
+use App\Pivots\ApiUserCasteller as PivotsApiUserCasteller;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+
+#[ApiResource]
+class ApiUser extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
-    use Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
+
+
+    protected $connection = 'mysql_api';
+    protected $table = 'api_users';
+    protected $primaryKey = 'id_api_user';
+
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +35,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
@@ -46,4 +61,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relations
+
+    public function castellers(): ?BelongsToMany
+    {
+        return $this->belongsToMany(Casteller::class, env('DB_DATABASE_API').'.casteller_api_user', 'api_user_id', 'casteller_id' );
+    }
+        
 }

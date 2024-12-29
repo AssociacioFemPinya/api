@@ -2,11 +2,15 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\User;
+use App\Models\ApiUser;
+use App\Pivots\ApiUserCasteller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Validation\ValidationException;
+use App\Models\CastellerConfig;
+use Illuminate\Support\Facades\Log;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -17,24 +21,39 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input): ApiUser
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
                 'email',
                 'max:255',
-                Rule::unique(User::class),
+                Rule::unique(ApiUser::class),
             ],
             'password' => $this->passwordRules(),
+            'token' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::exists(CastellerConfig::class,'api_token'),
+            ],
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
+        $casteller = CastellerConfig::where('api_token', $input['token'])->first()->getCasteller();
+
+        Log::info(array($casteller));
+
+        $userApi = ApiUser::create([
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $casteller->apiUsers()->attach($userApi->id_api_user);
+        
+        //$userApi->castellers()->attach($casteller->id_casteller);
+        //$userApi->save();
+
+        return $userApi;
     }
 }

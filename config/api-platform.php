@@ -11,7 +11,7 @@ return [
 
     'routes' => [
         // Global middleware applied to every API Platform routes
-        // 'middleware' => 'auth:sanctum'
+        'middleware' => ['auth:sanctum']
     ],
 
     'resources' => [
@@ -47,7 +47,7 @@ return [
         'pagination_client_partial' => false,
         'pagination_items_per_page' => 30,
         'pagination_maximum_items_per_page' => 30,
-        'route_prefix' => '/api',
+        'route_prefix' => '/api-fempinya',
         'middleware' => [],
     ],
 

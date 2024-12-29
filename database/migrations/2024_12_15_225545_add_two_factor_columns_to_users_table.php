@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('mysql_api')->table('users_api', function (Blueprint $table) {
+        Schema::connection('mysql_api')->table('api_users', function (Blueprint $table) {
             $table->text('two_factor_secret')
                 ->after('password')
                 ->nullable();
@@ -34,7 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('mysql_api')->table('users_api', function (Blueprint $table) {
+        Schema::connection('mysql_api')->table('api_users', function (Blueprint $table) {
             $table->dropColumn(array_merge([
                 'two_factor_secret',
                 'two_factor_recovery_codes',

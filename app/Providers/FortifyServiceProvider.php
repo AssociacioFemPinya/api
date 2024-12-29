@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use App\Models\ApiUser;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -45,8 +48,10 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
-
-        // Manual added
+        
+        /******************/
+        /* Manually added */
+        /******************/
 
         // Attaching Registering View
 
@@ -54,12 +59,9 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
-        /// Al the other views are disabled
+        /// All the other views are disabled
 
         /*
-
-        List of required views if actions are enabled:
-
         Fortify::loginView(function () {
             return view('auth.login');
         });
