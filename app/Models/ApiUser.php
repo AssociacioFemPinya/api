@@ -6,8 +6,11 @@ namespace App\Models;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Picts\ApiUserCasteller;
 use App\Pivots\ApiUserCasteller as PivotsApiUserCasteller;
+use App\State\EventsStateProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -17,7 +20,17 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 
-#[ApiResource]
+#[ApiResource(
+    shortName: 'ApiUser',
+    operations: [
+        new Get(
+            provider: EventsStateProvider::class
+        ),
+        new GetCollection(
+            provider: EventsStateProvider::class,
+        ),
+    ],
+)]
 class ApiUser extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -68,5 +81,10 @@ class ApiUser extends Authenticatable
     {
         return $this->belongsToMany(Casteller::class, env('DB_DATABASE_API').'.casteller_api_user', 'api_user_id', 'casteller_id' );
     }
+   
+    public function getCastellerActive(): ?Casteller
+    {
+        return $this->castellers->first();
+    }        
         
 }

@@ -11,7 +11,7 @@ return [
 
     'routes' => [
         // Global middleware applied to every API Platform routes
-        'middleware' => ['auth:sanctum']
+        //'middleware' => ['auth:sanctum']
     ],
 
     'resources' => [

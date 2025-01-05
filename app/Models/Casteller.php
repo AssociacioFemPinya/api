@@ -34,4 +34,21 @@ class Casteller extends Model
         return $this->hasOne(CastellerConfig::class, 'casteller_id', 'id_casteller');
     }
 
+    public function colla(): BelongsTo
+    {
+        return $this->belongsTo(Colla::class, 'colla_id', 'id_colla');
+    }
+
+    // Functions
+
+    public function getCollaId(): int
+    {
+        return $this->getAttribute('colla_id');
+    }
+
+    public function getColla(): Colla
+    {
+        return $this->getAttribute('colla');
+    }    
+
 }
