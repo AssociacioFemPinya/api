@@ -19,8 +19,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
 
-        $this->app->tag([CollaParameterProvider::class], ParameterProvider::class);
-
     }
 
     /**
@@ -28,11 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-
-        //$this->app->tag(AbstractStateProcessor::class, ProcessorInterface::class);
-
-		//$this->app->tag(AbstractStateProvider::class, ProviderInterface::class);
 
 		$this->app->tag(EventsStateProvider::class, ProviderInterface::class);
 

@@ -13,10 +13,6 @@ final class EventsStateProvider extends AbstractStateProvider
 {
     protected function postCollectionProvider($data) : mixed
     {
-        /*if(!is_null($data) && $data->count()>0)
-        {
-
-        }*/
         return $data;
     }
 }
