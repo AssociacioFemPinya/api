@@ -11,8 +11,5 @@ use App\State\AbstractStateProvider;
 
 final class EventsStateProvider extends AbstractStateProvider
 {
-    protected function postCollectionProvider($data) : mixed
-    {
-        return $data;
-    }
+
 }

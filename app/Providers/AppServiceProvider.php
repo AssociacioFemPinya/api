@@ -9,6 +9,7 @@ use App\State\AbstractStateProvider;
 use ApiPlatform\State\ProviderInterface;
 use App\ParameterProvers\CollaParameterProvider;
 use App\State\AbstractStateProcessor;
+use App\State\TagsStateProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
 		$this->app->tag(EventsStateProvider::class, ProviderInterface::class);
+		$this->app->tag(TagsStateProvider::class, ProviderInterface::class);
 
 
     }

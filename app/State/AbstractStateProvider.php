@@ -67,9 +67,12 @@ abstract class AbstractStateProvider implements ProviderInterface
 
         $parameters = $operation->getParameters();
         $newParameters = [];
+
         foreach ($parameters ?? [] as $parameter) {
-           
-            if($parameter->getKey() === 'colla_id' && (!($values = $parameter->getValue()) || $values instanceof ParameterNotFound)) $parameter = $parameter->withExtraProperties(['_api_values'=>$this->casteller->getCollaId()]);
+            if($parameter->getKey() === 'colla_id' && (!($values = $parameter->getValue()) 
+                || $values instanceof ParameterNotFound)){
+                    $parameter = $parameter->withExtraProperties(['_api_values'=>$this->casteller->getCollaId()]);
+                }
             $newParameters[] = $parameter;
 
         }

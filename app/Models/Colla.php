@@ -16,6 +16,13 @@ class Colla extends Model
     #[ApiProperty(identifier: true)]
     private int $id_colla;
 
+    // RELATIONS
+
+    public function events(): ?HasMany
+    {
+        return $this->hasMany(Event::class, 'colla_id', 'id_colla');
+    }
+
     public function castellers(): ?HasMany
     {
         return $this->hasMany(Casteller::class, 'colla_id', 'id_colla');
