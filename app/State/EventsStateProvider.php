@@ -12,4 +12,18 @@ use App\State\AbstractStateProvider;
 final class EventsStateProvider extends AbstractStateProvider
 {
 
+    protected function preCollectionProvider(Operation $operation, array $uriVariables = [], array $context = []) : array
+    {
+
+        //Returning only visible Events
+        $operation = $this->setParameter($operation, 'visibility', 1);
+        $context['operation'] = $operation;
+
+        return [
+            'operation'     => $operation,
+            'uriVariables'  => $uriVariables,
+            'context'       => $context
+        ];
+    }
+
 }

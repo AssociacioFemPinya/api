@@ -30,6 +30,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 )]
 #[QueryParameter(key: 'colla_id', filter: EqualsFilter::class,)]
 #[QueryParameter(key: 'type', filter: EqualsFilter::class,)]
+#[QueryParameter(key: 'visibility', filter: EqualsFilter::class,)]
 
 class Event extends Model
 {
@@ -55,6 +56,8 @@ class Event extends Model
 
     #[SerializedName('title')]
     private string $name; 
+
+    private string $visibility; 
 
     // Relations
     public function colla(): BelongsTo

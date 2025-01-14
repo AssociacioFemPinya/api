@@ -39,12 +39,15 @@ abstract class AbstractStateProvider implements ProviderInterface
 
         if ($operation instanceof CollectionOperationInterface) {
             if($this->casteller){
-                $operation = $this->setCastellerCollaParameter($operation);
+                $operation = $this->setParameter($operation, 'colla_id', $this->casteller->getCollaId());
                 $context['operation'] = $operation;
             }
+
+            extract($this->preCollectionProvider($operation,$uriVariables,$context));
             $data = $this->collectionProvider->provide($operation,$uriVariables,$context);
             $data = $this->postCollectionProvider($data);
         } else {
+            extract($this->preItemProvider($operation,$uriVariables,$context));
             $data = $this->itemProvider->provide($operation,$uriVariables,$context);
             $data = $this->postItemProvider($data);
         }
@@ -52,29 +55,48 @@ abstract class AbstractStateProvider implements ProviderInterface
         return $data;    
     }
 
+    protected function preCollectionProvider(Operation $operation, array $uriVariables = [], array $context = []) : array
+    {
+        return [
+            'operation'     => $operation,
+            'uriVariables'  => $uriVariables,
+            'context'       => $context
+        ];
+    }
+
     protected function postCollectionProvider($data) : mixed
     {
         return $data;
     }
+
+    protected function preItemProvider(Operation $operation, array $uriVariables = [], array $context = []) : array
+    {
+        return [
+            'operation'     => $operation,
+            'uriVariables'  => $uriVariables,
+            'context'       => $context
+        ];    
+    }    
 
     protected function postItemProvider($data) : mixed
     {
         return $data;
     }
 
-    protected function setCastellerCollaParameter(Operation $operation) : Operation
+    protected function setParameter(Operation $operation, string $parameterName, mixed $parameterValue) : Operation
     {
 
         $parameters = $operation->getParameters();
-        $newParameters = [];
+        $newParameters = [];;
 
         foreach ($parameters ?? [] as $parameter) {
-            if($parameter->getKey() === 'colla_id' && (!($values = $parameter->getValue()) 
-                || $values instanceof ParameterNotFound)){
-                    $parameter = $parameter->withExtraProperties(['_api_values'=>$this->casteller->getCollaId()]);
-                }
+            $values = $parameter->getValue();
+            if($parameter->getKey() === $parameterName
+                // if no parameter nor parameter value has set, we override the paremeter. Otherwise we respect it
+                && (is_null($values = $parameter->getValue()) || $values instanceof ParameterNotFound || empty($values) || $values === '')){
+                    $parameter = $parameter->withExtraProperties(['_api_values' => $parameterValue]);
+            }
             $newParameters[] = $parameter;
-
         }
         return $operation->withParameters($newParameters);
 
