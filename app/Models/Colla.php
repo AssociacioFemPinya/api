@@ -4,10 +4,20 @@ namespace App\Models;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[ApiResource]
+#[ApiResource(
+    shortName: 'Colla',
+    operations: [
+        new Get(
+        ),
+        new GetCollection(
+        ),
+    ],
+)]
 class Colla extends Model
 {
     protected $connection = 'mysql';

@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\HeaderParameter;
 use ApiPlatform\Metadata\QueryParameter;
+use App\Dtos\TagDto;
 use App\ParameterProvers\CollaParameterProvider;
 use App\State\EventsStateProvider;
 use App\State\TagsStateProvider;
@@ -18,26 +19,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+
 #[ApiResource(
     shortName: 'Tag',
     //normalizationContext: ['groups' => ['tags:read']],
     operations: [
         new Get(
-            provider: TagsStateProvider::class,
+            provider: TagsStateProvider::class
         ),
         new GetCollection(
             provider: TagsStateProvider::class,
+            parameters: [
+                'type'  => new QueryParameter(filter: EqualsFilter::class),
+            ]            
         ),
     ],
 )]
-#[QueryParameter(key: 'colla_id', filter: EqualsFilter::class,)]
-#[QueryParameter(key: 'type', filter: EqualsFilter::class,)]
+
 
 class Tag extends Model
 {
     protected $connection = 'mysql';
     protected $table = 'tags';
     protected $primaryKey = 'id_tag';
+
+    public const TAG_ALL = 'all';
 
     protected $hidden = [
     ];

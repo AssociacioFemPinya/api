@@ -24,10 +24,8 @@ use Laravel\Sanctum\HasApiTokens;
     shortName: 'ApiUser',
     operations: [
         new Get(
-            provider: EventsStateProvider::class
         ),
         new GetCollection(
-            provider: EventsStateProvider::class,
         ),
     ],
 )]

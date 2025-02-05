@@ -5,25 +5,32 @@ declare(strict_types=1);
 namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProviderInterface;
-use Illuminate\Support\Facades\Log;
+use App\Models\Event;
 use App\State\AbstractStateProvider;
 
 final class EventsStateProvider extends AbstractStateProvider
 {
 
-    protected function preCollectionProvider(Operation $operation, array $uriVariables = [], array $context = []) : array
+    protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []) : mixed
     {
+        if(!is_null($this->casteller)){
+            $eventsFilter = Event::filter($this->casteller->getColla())
+            ->upcoming()
+            ->visible()
+            ->withCastellerTags($this->casteller->tagsArray('id_tag'));
 
-        //Returning only visible Events
-        $operation = $this->setParameter($operation, 'visibility', 1);
-        $context['operation'] = $operation;
+            if(array_key_exists('type',$this->parameters)) $eventsFilter->withType($this->parameters['type']['value']);
 
-        return [
-            'operation'     => $operation,
-            'uriVariables'  => $uriVariables,
-            'context'       => $context
-        ];
+            return $eventsFilter->eloquentBuilder()->get();
+
+        }else{
+            $events = Event::query();
+
+            if(array_key_exists('type',$this->parameters)) $events->where('type',(int)$this->parameters['type']['value']);
+
+            return $events->get();
+        }
+ 
     }
 
 }

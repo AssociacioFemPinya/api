@@ -12,10 +12,12 @@ use ApiPlatform\Metadata\HeaderParameter;
 use ApiPlatform\Metadata\QueryParameter;
 use App\ParameterProvers\CollaParameterProvider;
 use App\State\EventsStateProvider;
+use App\Traits\FilterableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+
 
 #[ApiResource(
     shortName: 'Event',
@@ -25,18 +27,21 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         ),
         new GetCollection(
             provider: EventsStateProvider::class,
+            parameters: [
+                'type'  => new QueryParameter(filter: EqualsFilter::class),
+            ]
         ),
     ],
 )]
-#[QueryParameter(key: 'colla_id', filter: EqualsFilter::class,)]
-#[QueryParameter(key: 'type', filter: EqualsFilter::class,)]
-#[QueryParameter(key: 'visibility', filter: EqualsFilter::class,)]
-
 class Event extends Model
 {
+    use FilterableTrait;
+
     protected $connection = 'mysql';
     protected $table = 'events';
     protected $primaryKey = 'id_event';
+
+    protected static $filterClass = \App\Services\Filters\EventsFilter::class;
 
     protected $hidden = [
         'id_event_external', 
