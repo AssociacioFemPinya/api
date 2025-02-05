@@ -5,20 +5,13 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Picts\ApiUserCasteller;
-use App\Pivots\ApiUserCasteller as PivotsApiUserCasteller;
-use App\State\EventsStateProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 
 #[ApiResource(
     shortName: 'ApiUser',
@@ -32,7 +25,9 @@ use Laravel\Sanctum\HasApiTokens;
 class ApiUser extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
 
     protected $connection = 'mysql_api';
@@ -77,12 +72,12 @@ class ApiUser extends Authenticatable
 
     public function castellers(): ?BelongsToMany
     {
-        return $this->belongsToMany(Casteller::class, env('DB_DATABASE_API').'.casteller_api_user', 'api_user_id', 'casteller_id' );
+        return $this->belongsToMany(Casteller::class, env('DB_DATABASE_API').'.casteller_api_user', 'api_user_id', 'casteller_id');
     }
-   
+
     public function getCastellerActive(): ?Casteller
     {
         return $this->castellers->first();
-    }        
-        
+    }
+
 }

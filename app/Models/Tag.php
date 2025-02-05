@@ -3,22 +3,15 @@
 namespace App\Models;
 
 use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
-use ApiPlatform\Laravel\Eloquent\Filter\PartialSearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\HeaderParameter;
 use ApiPlatform\Metadata\QueryParameter;
-use App\Dtos\TagDto;
-use App\ParameterProvers\CollaParameterProvider;
-use App\State\EventsStateProvider;
 use App\State\TagsStateProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Symfony\Component\Serializer\Annotation\SerializedName;
-
 
 #[ApiResource(
     shortName: 'Tag',
@@ -31,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
             provider: TagsStateProvider::class,
             parameters: [
                 'type'  => new QueryParameter(filter: EqualsFilter::class),
-            ]            
+            ]
         ),
     ],
 )]
@@ -57,7 +50,7 @@ class Tag extends Model
 
     #[ApiProperty(identifier: true)]
     private int $id_tag;
-   
+
     // RELATIONS
 
     public function colla(): BelongsTo
@@ -76,45 +69,45 @@ class Tag extends Model
         return $this->belongsToMany(Event::class, 'event_tag', 'event_id', 'tag_id');
     }
 
-    // FUNCTIONS 
+    // FUNCTIONS
 
-     public function getId(): int
-     {
-         return $this->getAttribute('id_tag');
-     }
- 
-     public function getIdExternal(): ?int
-     {
-         return $this->getAttribute('id_tag_external');
-     }
- 
-     public function getCollaId(): ?int
-     {
-         return $this->getAttribute('colla_id');
-     }
- 
-     public function getColla(): ?Colla
-     {
-         return $this->getAttribute('colla');
-     }
- 
-     public function getName(): string
-     {
-         return $this->getAttribute('name');
-     }
- 
-     public function getValue(): string
-     {
-         return $this->getAttribute('value');
-     }
- 
-     public function getGroup(): string
-     {
-         return $this->getAttribute('group');
-     }
- 
-     public function getType(): string
-     {
-         return $this->getAttribute('type');
-     }
+    public function getId(): int
+    {
+        return $this->getAttribute('id_tag');
+    }
+
+    public function getIdExternal(): ?int
+    {
+        return $this->getAttribute('id_tag_external');
+    }
+
+    public function getCollaId(): ?int
+    {
+        return $this->getAttribute('colla_id');
+    }
+
+    public function getColla(): ?Colla
+    {
+        return $this->getAttribute('colla');
+    }
+
+    public function getName(): string
+    {
+        return $this->getAttribute('name');
+    }
+
+    public function getValue(): string
+    {
+        return $this->getAttribute('value');
+    }
+
+    public function getGroup(): string
+    {
+        return $this->getAttribute('group');
+    }
+
+    public function getType(): string
+    {
+        return $this->getAttribute('type');
+    }
 }

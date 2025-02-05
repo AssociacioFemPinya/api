@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,7 +14,7 @@ return new class extends Migration
         Schema::connection('mysql_api')->create('casteller_api_user', function (Blueprint $table) {
             $table->increments('id_casteller_api_user');
             $table->unsignedInteger('api_user_id');
-            $table->unsignedInteger('casteller_id');            
+            $table->unsignedInteger('casteller_id');
             $table->timestamps();
 
             $table->foreign('casteller_id')
@@ -23,7 +22,7 @@ return new class extends Migration
                 ->on(env('DB_DATABASE').'.castellers');
 
             /*
-            
+
             IT has NO constraint because I couldn't make it work for an external DB
 
             I tried adding:

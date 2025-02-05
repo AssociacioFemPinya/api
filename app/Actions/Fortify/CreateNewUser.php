@@ -3,12 +3,10 @@
 namespace App\Actions\Fortify;
 
 use App\Models\ApiUser;
-use App\Pivots\ApiUserCasteller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Illuminate\Validation\ValidationException;
 use App\Models\CastellerConfig;
 use Illuminate\Support\Facades\Log;
 
@@ -36,7 +34,7 @@ class CreateNewUser implements CreatesNewUsers
                 'required',
                 'string',
                 'max:255',
-                Rule::exists(CastellerConfig::class,'api_token'),
+                Rule::exists(CastellerConfig::class, 'api_token'),
             ],
         ])->validate();
 
@@ -50,7 +48,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $casteller->apiUsers()->attach($userApi->id_api_user);
-        
+
         //$userApi->castellers()->attach($casteller->id_casteller);
         //$userApi->save();
 

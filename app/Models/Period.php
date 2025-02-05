@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Colla;
 use App\Traits\TimeStampsGetterTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

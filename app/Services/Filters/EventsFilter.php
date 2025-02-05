@@ -18,9 +18,8 @@ use Illuminate\Support\Facades\DB;
 
 class EventsFilter extends BaseFilter
 {
-    private Builder $eloquentBuilder;
-
     use DatatablesFilterTrait;
+    private Builder $eloquentBuilder;
 
     public function __construct(Colla $colla)
     {

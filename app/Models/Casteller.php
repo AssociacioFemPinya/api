@@ -7,12 +7,10 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Pivots\ApiUserCasteller as PivotsApiUserCasteller;
-use App\Models\CastellerConfig;
+
 #[ApiResource(
     shortName: 'Casteller',
     operations: [
@@ -58,6 +56,6 @@ class Casteller extends Model
     public function getColla(): Colla
     {
         return $this->getAttribute('colla');
-    }    
+    }
 
 }

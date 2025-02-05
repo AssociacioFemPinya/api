@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Casteller;
 use App\Models\ApiUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +11,7 @@ class AuthTokenController extends Controller
 {
     public function login(Request $request)
     {
-                
+
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
