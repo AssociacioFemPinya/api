@@ -20,6 +20,7 @@ return [
     ],
 
     'formats' => [
+        'json' => ['application/json'],
         'jsonld' => ['application/ld+json'],
         //'jsonapi' => ['application/vnd.api+json'],
         //'csv' => ['text/csv'],
@@ -30,6 +31,7 @@ return [
     ],
 
     'docs_formats' => [
+        'json' => ['application/json'],
         'jsonld' => ['application/ld+json'],
         //'jsonapi' => ['application/vnd.api+json'],
         'jsonopenapi' => ['application/vnd.openapi+json'],
