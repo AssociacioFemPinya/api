@@ -1,4 +1,21 @@
 {
+    "name": "fempinya-api",
+    "version": "1.0.0",
+    "release": {
+        "branches": [
+            {
+                "name": "master",
+                "channel": "stable",
+                "prerelease": false
+            }
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
+            "@semantic-release/github"
+        ]
+    },
     "private": true,
     "type": "module",
     "scripts": {
@@ -6,6 +23,7 @@
         "dev": "vite"
     },
     "devDependencies": {
+        "semantic-release": "^21.0.0",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
