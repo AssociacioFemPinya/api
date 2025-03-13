@@ -17,10 +17,6 @@ return new class () extends Migration {
             $table->unsignedInteger('casteller_id');
             $table->timestamps();
 
-            $table->foreign('casteller_id')
-                ->references('id_casteller')
-                ->on(env('DB_DATABASE').'.castellers');
-
             /*
 
             IT has NO constraint because I couldn't make it work for an external DB
