@@ -70,14 +70,8 @@ class ApiUser extends Authenticatable
 
     // Relations
 
-    public function castellers(): ?BelongsToMany
-    {
-        return $this->belongsToMany(Casteller::class, env('DB_DATABASE_API').'.casteller_api_user', 'api_user_id', 'casteller_id');
-    }
-
     public function getCastellerActive(): ?Casteller
     {
-        return $this->castellers->first();
+        return Casteller::where('id_casteller', $this->api_user_id)->first();
     }
-
 }
