@@ -13,9 +13,11 @@ use App\State\MobileEventsStateProvider;
     operations: [
         new Get(provider: MobileEventsStateProvider::class),
         new GetCollection(provider: MobileEventsStateProvider::class),
+        
     ],
     paginationEnabled: false
 )]
+
 class MobileEventDto
 {
     public function __construct(
@@ -28,6 +30,7 @@ class MobileEventDto
         public ?string $type = '', // type(enum): training, performance, activity
         public ?string $description = '',
         public ?int $companions = null,
+        public ?array $tags = [],
         public ?string $comment = '',
     ) {}
 
@@ -53,8 +56,9 @@ class MobileEventDto
             address: $event->address,
             status: $statusMap[$event->status] ?? 'unknown',
             type: $typeMap[$event->type] ?? '',
-            description: $event->comments, // TODO: this should be a description
+            description: $event->comments, // TODO: the field in the DB should be description instead?
             companions: $event->companions,
+            // tags is not generated for Collection, only for single item. It must be generated in a separate query
         );
     }
 }

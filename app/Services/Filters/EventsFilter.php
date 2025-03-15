@@ -34,9 +34,9 @@ class EventsFilter extends BaseFilter
     public function showCastellerAttendance(int $id_casteller): self
     {
         $this->eloquentBuilder
-        ->leftJoin('attendance', function($join) {
+        ->leftJoin('attendance', function($join) use ($id_casteller) {
             $join->on('events.id_event', '=', 'attendance.event_id')
-                 ->where('attendance.casteller_id', 1);
+                 ->where('attendance.casteller_id', $id_casteller);
         })->addSelect('attendance.status');
 
         return $this;
