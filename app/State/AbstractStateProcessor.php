@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\State;
 
+use App\Models\ApiUser;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
@@ -12,10 +15,22 @@ use ApiPlatform\Laravel\Eloquent\State\RemoveProcessor;
 
 abstract class AbstractStateProcessor implements ProcessorInterface
 {
+    protected $casteller = null;
+    
     public function __construct(
         protected PersistProcessor $persistProcessor,
         protected RemoveProcessor $removeProcessor
     ) {
+        try {
+            Log::info('AbstractStateProcessor');
+            // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
+            if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
+                $apiUser = ApiUser::find($identifiedUserId);
+                $this->casteller = $apiUser->getCastellerActive();
+            }
+        } catch (\Exception $e) {
+            Log::debug('Error getting the authenticated user: ' . $e->getMessage());
+        }
     }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed

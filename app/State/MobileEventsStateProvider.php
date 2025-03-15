@@ -7,6 +7,7 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use App\Models\Event;
 use App\Dto\MobileEventDto;
+use Illuminate\Support\Facades\Log;
 
 class EventTag {
     public function __construct(
@@ -21,7 +22,7 @@ final class MobileEventsStateProvider extends AbstractStateProvider
     protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         if (is_null($this->casteller)) {
-            return [];
+            abort(404, 'Events not found');
         }
 
         $eventsFilter = Event::filter($this->casteller->getColla())
@@ -53,10 +54,11 @@ final class MobileEventsStateProvider extends AbstractStateProvider
             abort(404, 'Event ID is required');
         }
 
-        $event = Event::find($id)
-            ->leftJoin('attendance', function($join) {
-                $join->on('events.id_event', '=', 'attendance.event_id');
+        $event = Event::leftJoin('attendance', function($join) {
+            $join->on('events.id_event', '=', 'attendance.event_id')
+                 ->where('attendance.casteller_id', $this->casteller->getId());
             })
+            ->where('events.id_event', $id)
             ->select('events.*', 'attendance.status', 'attendance.options')
             ->firstOrFail();
 
@@ -65,7 +67,7 @@ final class MobileEventsStateProvider extends AbstractStateProvider
         }
 
         $eventTags = [];
-        $eventOptions = json_decode($event->options, true);
+        $eventOptions = json_decode($event->options ?? "[]", true);
         foreach ($event->tags as $tag){
             $eventTags[] = new EventTag($tag->id_tag, $tag->name, in_array($tag->id_tag, $eventOptions));
         }

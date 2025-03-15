@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\ApiUser;
 
 abstract class AbstractStateProvider implements ProviderInterface
@@ -28,7 +29,7 @@ abstract class AbstractStateProvider implements ProviderInterface
                 $this->casteller = $apiUser->getCastellerActive();
             }
         } catch (\Exception $e) {
-            // Handle exception if needed
+            Log::debug('Error getting the authenticated user: ' . $e->getMessage());
         }
     }
 

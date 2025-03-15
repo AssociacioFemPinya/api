@@ -4,16 +4,19 @@ namespace App\Dto;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\GetCollection; 
 use App\Models\Event;
 use App\State\MobileEventsStateProvider;
+use App\State\MobileEventsStateProcessor;
+use Illuminate\Support\Facades\Log;
 
 #[ApiResource(
     shortName: 'MobileEvent',
     operations: [
         new Get(provider: MobileEventsStateProvider::class),
         new GetCollection(provider: MobileEventsStateProvider::class),
-        
+        new Put(processor: MobileEventsStateProcessor::class),
     ],
     paginationEnabled: false
 )]
@@ -47,6 +50,8 @@ class MobileEventDto
             2 => 'performance',
             3 => 'activity',
         ];
+
+        Log::info("fromModel", [$event->id_event]);
 
         return new self(
             id: $event->id_event,

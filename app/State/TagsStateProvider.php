@@ -23,7 +23,5 @@ final class TagsStateProvider extends AbstractStateProvider
         }
 
         return $tags->get();
-
     }
-
 }
