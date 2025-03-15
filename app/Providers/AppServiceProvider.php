@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\State\EventsStateProvider;
 use ApiPlatform\State\ProviderInterface;
 use App\State\TagsStateProvider;
+use App\State\MobileEventsStateProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,10 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
         $this->app->tag(EventsStateProvider::class, ProviderInterface::class);
         $this->app->tag(TagsStateProvider::class, ProviderInterface::class);
-
-
+        $this->app->tag(MobileEventsStateProvider::class, ProviderInterface::class);
     }
 }

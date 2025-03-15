@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ParameterNotFound;
 use ApiPlatform\State\ProviderInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\ApiUser;
 
 abstract class AbstractStateProvider implements ProviderInterface
@@ -22,15 +23,23 @@ abstract class AbstractStateProvider implements ProviderInterface
         protected ItemProvider $itemProvider,
         protected CollectionProvider $collectionProvider
     ) {
-        // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
-        if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
-            $apiUser = ApiUser::find($identifiedUserId);
-            $this->casteller = $apiUser->getCastellerActive();
+        Log::info('AbstractStateProvider._construct');
+        try {
+            // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
+            if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
+                Log::info('AbstractStateProvider._construct.not_is_null');
+                $apiUser = ApiUser::find($identifiedUserId);
+                $this->casteller = $apiUser->getCastellerActive();
+                Log::info('AbstractStateProvider._construct.this_casteller', [$this->casteller]);
+            }
+        } catch (\Exception $e) {
+            Log::error('AbstractStateProvider._construct: ' . $e->getMessage());
         }
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
+        Log::info('AbstractStateProvider.provide');
         $this->parameters = $this->parseParameters($operation);
 
         if ($operation instanceof CollectionOperationInterface) {
@@ -48,12 +57,14 @@ abstract class AbstractStateProvider implements ProviderInterface
 
     protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        return  $this->collectionProvider->provide($operation, $uriVariables, $context);
+        Log::info('AbstractStateProvider.collectionProvider');
+        return $this->collectionProvider->provide($operation, $uriVariables, $context);
     }
 
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        return  $this->itemProvider->provide($operation, $uriVariables, $context);
+        Log::info('AbstractStateProvider.itemProvider');
+        return $this->itemProvider->provide($operation, $uriVariables, $context);
     }
 
     protected function preCollectionProvider(Operation $operation, array $uriVariables = [], array $context = []): array
@@ -91,8 +102,7 @@ abstract class AbstractStateProvider implements ProviderInterface
         $parametersInput = $operation->getParameters();
 
         foreach ($parametersInput ?? [] as $parameter) {
-
-            if (!is_null($values = $parameter->getValue()) && !$values instanceof ParameterNotFound && ! empty($values) && $values !== '') {
+            if (!is_null($values = $parameter->getValue()) && !$values instanceof ParameterNotFound && !empty($values) && $values !== '') {
                 $parameters[$parameter->getKey()] = [
                     'value'     => $parameter->getValue(),
                     'filter'    => $parameter->getFilter(),
@@ -102,5 +112,4 @@ abstract class AbstractStateProvider implements ProviderInterface
 
         return $parameters;
     }
-
 }

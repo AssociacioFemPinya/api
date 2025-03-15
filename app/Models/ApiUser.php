@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -70,8 +69,9 @@ class ApiUser extends Authenticatable
 
     // Relations
 
+    // TODO: This is not correct, fix the relation
     public function getCastellerActive(): ?Casteller
     {
-        return Casteller::where('id_casteller', $this->api_user_id)->first();
+        return Casteller::where('id_casteller', $this->id_api_user)->first();
     }
 }

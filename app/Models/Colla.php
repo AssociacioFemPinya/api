@@ -26,6 +26,12 @@ class Colla extends Model
     #[ApiProperty(identifier: true)]
     private int $id_colla;
 
+    //Properties
+    public function getId(): int
+    {
+        return $this->getAttribute('id_colla');
+    }
+
     // RELATIONS
 
     public function events(): ?HasMany

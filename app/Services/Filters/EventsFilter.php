@@ -21,11 +21,24 @@ class EventsFilter extends BaseFilter
     use DatatablesFilterTrait;
     private Builder $eloquentBuilder;
 
+    protected $connection = 'mysql'; // TODO: can we get this from event model?
+
     public function __construct(Colla $colla)
     {
         parent::__construct($this->eloquentBuilder = Event::query()
             ->where('events.colla_id', $colla->getId())
             ->select('events.*'));
+    }
+
+    public function showCastellerAttendance(int $id_casteller): self
+    {
+        $this->eloquentBuilder
+        ->leftJoin('attendance', function($join) {
+            $join->on('events.id_event', '=', 'attendance.event_id')
+                 ->where('attendance.casteller_id', 1);
+        })->addSelect('attendance.status');
+
+        return $this;
     }
 
     public function upcoming(): self
@@ -154,7 +167,7 @@ class EventsFilter extends BaseFilter
 
     private function getEventsIDByTags(array $includedTags, string $includedSearchType): QueryBuilder
     {
-        $event_tags = DB::table('event_tag')
+        $event_tags = DB::connection($this->connection)->table('event_tag')
             ->leftJoin('tags', 'event_tag.tag_id', '=', 'tags.id_tag')
             ->whereIn('tags.id_tag', $includedTags)
             ->select(DB::raw('event_tag.event_id'))
@@ -169,7 +182,7 @@ class EventsFilter extends BaseFilter
 
     private function getEventsIDByCastellerTags(array $includedTags, string $includedSearchType): QueryBuilder
     {
-        $event_tags = DB::table('events')
+        $event_tags = DB::connection($this->connection)->table('events')
             ->leftJoin('event_casteller_tag', 'events.id_event', '=', 'event_casteller_tag.event_id')
             ->leftJoin('tags', 'event_casteller_tag.tag_id', '=', 'tags.id_tag')
             ->whereNull('tags.id_tag')
