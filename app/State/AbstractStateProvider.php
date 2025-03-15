@@ -39,8 +39,7 @@ abstract class AbstractStateProvider implements ProviderInterface
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        Log::info('AbstractStateProvider.provide');
-        $this->parameters = $this->parseParameters($operation);
+        $this->parameters = $this->parseParameters($context);
 
         if ($operation instanceof CollectionOperationInterface) {
             extract($this->preCollectionProvider($operation, $uriVariables, $context));
@@ -95,19 +94,13 @@ abstract class AbstractStateProvider implements ProviderInterface
         return $data;
     }
 
-    private function parseParameters(Operation $operation): array
+    private function parseParameters(array $context): array
     {
         $parameters = [];
+        $filters = $context['filters'] ?? [];
 
-        $parametersInput = $operation->getParameters();
-
-        foreach ($parametersInput ?? [] as $parameter) {
-            if (!is_null($values = $parameter->getValue()) && !$values instanceof ParameterNotFound && !empty($values) && $values !== '') {
-                $parameters[$parameter->getKey()] = [
-                    'value'     => $parameter->getValue(),
-                    'filter'    => $parameter->getFilter(),
-                ];
-            }
+        foreach ($filters as $key => $value) {
+            $parameters[$key] = $value;
         }
 
         return $parameters;

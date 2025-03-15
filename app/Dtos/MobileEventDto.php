@@ -8,13 +8,15 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Models\Event;
 use App\State\MobileEventsStateProvider;
 use Illuminate\Support\Facades\Log;
-
+use ApiPlatform\Laravel\Eloquent\Filter\EqualsFilter;
 
 #[ApiResource(
     shortName: 'MobileEvent',
     operations: [
         new Get(provider: MobileEventsStateProvider::class),
-        new GetCollection(provider: MobileEventsStateProvider::class)
+        new GetCollection(
+            provider: MobileEventsStateProvider::class,
+        ),
     ],
     paginationEnabled: false
 )]
@@ -52,7 +54,7 @@ class MobileEventDto
         ];
         $type = $typeMap[$event->type];
 
-        Log::info("MobileEventDto_event_comments", [$event]);
+        // Log::info("MobileEventDto_event_comments", [$event]);
 
         return new self(
             id: $event->id_event,

@@ -7,6 +7,7 @@ namespace App\Services\Filters;
 use App\Models\Colla;
 use App\Enums\EventTypeEnum;
 use App\Enums\FilterSearchTypesEnum;
+use App\Enums\AttendanceStatusEnum;
 use App\Models\Event;
 use App\Models\Period;
 use App\Models\Tag;
@@ -134,19 +135,37 @@ class EventsFilter extends BaseFilter
         return $this;
     }
 
-    public function withType(int $status): self
+    public function showAnswered(): self
     {
-        switch ($status) {
-            case EventTypeEnum::ASSAIG:
-                $this->eloquentBuilder->where('events.type', EventTypeEnum::Assaig()->value());
-                break;
-            case EventTypeEnum::ACTUACIO:
-                $this->eloquentBuilder->where('events.type', EventTypeEnum::Actuacio()->value());
-                break;
-            case EventTypeEnum::ACTIVITAT:
-                $this->eloquentBuilder->where('events.type', EventTypeEnum::Activitat()->value());
-                break;
-        }
+        // TODO: raise an exception if we haven't join attendance table using showCastellerAttendance?
+        $this->eloquentBuilder->where(function ($query) {
+            $query->where('attendance.status', AttendanceStatusEnum::YES)
+              ->orWhere('attendance.status', AttendanceStatusEnum::NO);
+        });
+        return $this;
+    }
+
+    public function showUnknown(): self
+    {
+        // TODO: raise an exception if we haven't join attendance table using showCastellerAttendance?
+        $this->eloquentBuilder->where(function ($query) {
+            $query->whereNull('attendance.status')
+              ->orWhere('attendance.status', AttendanceStatusEnum::UNKNOWN);
+        });
+        return $this;
+    }
+
+    public function withTypes(array $status): self
+    {
+        $status = array_filter($status, function ($value) {
+            return in_array($value, AttendanceStatusEnum::getStatus());
+        });
+
+        $this->eloquentBuilder->where(function ($query) use ($status) {
+            foreach ($status as $value) {
+            $query->orWhere('events.type', $value);
+            }
+        });
 
         return $this;
     }
