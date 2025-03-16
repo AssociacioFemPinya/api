@@ -50,6 +50,7 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
         //     return MobileEventDto::fromModel($data);
         // }
 
+        $data->id = $uriVariables['id'];
         return $data;
     }
 
