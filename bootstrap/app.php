@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CorsMiddleware;
 use App\Http\Middleware\VerifyApiKey;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // append Middleware on each call
         $middleware->append(VerifyApiKey::class);
+        $middleware->append(CorsMiddleware::class);
         $middleware->redirectGuestsTo('/');
 
     })

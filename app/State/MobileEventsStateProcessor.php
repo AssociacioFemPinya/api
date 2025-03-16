@@ -39,7 +39,6 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
         $this->updateAttendanceOptions($attendance, $data->tags, $id);
         $attendance->companions = $data->companions;
 
-        Log::info("preProcessProcessor", [$attendance]);
         $attendance->save();
         return $data;
     }
@@ -70,8 +69,6 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
         $options = [];
         $eventTags = Event::find($eventId)->tags->pluck('id_tag')->toArray();
         foreach ($tags as $tag) {
-            Log::info("updateAttendanceOptions", [$tag]);
-            Log::info("updateAttendanceOptions", [$eventTags]);
             if ($tag["isEnabled"] && in_array($tag["id"], $eventTags)) {
                 $options[] = $tag["id"];
             }

@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EventsFilter extends BaseFilter
 {
@@ -145,7 +146,7 @@ class EventsFilter extends BaseFilter
         return $this;
     }
 
-    public function showUnknown(): self
+    public function showUndefined(): self
     {
         // TODO: raise an exception if we haven't join attendance table using showCastellerAttendance?
         $this->eloquentBuilder->where(function ($query) {
@@ -157,9 +158,16 @@ class EventsFilter extends BaseFilter
 
     public function withTypes(array $status): self
     {
-        $status = array_filter($status, function ($value) {
-            return in_array($value, AttendanceStatusEnum::getStatus());
-        });
+        // TODO: do a single transformation of types, see dto
+        $typeMap = [
+            'training' => 1,
+            'performance' => 2,
+            'activity' => 3,
+        ];
+        
+        $status = array_map(function ($value) use ($typeMap) {
+            return $typeMap[$value];
+        }, $status);
 
         $this->eloquentBuilder->where(function ($query) use ($status) {
             foreach ($status as $value) {
@@ -170,16 +178,24 @@ class EventsFilter extends BaseFilter
         return $this;
     }
 
-    public function beforeDate(string $date): self
+    public function beforeDate(string $date, bool $strict = false): self
     {
-        $this->eloquentBuilder->where('start_date', '<', $date);
+        if ($strict) {
+            $this->eloquentBuilder->whereDate('start_date', '<', $date);
+        } else {
+            $this->eloquentBuilder->whereDate('start_date', '<=', $date);
+        }
 
         return $this;
     }
 
-    public function afterDate(string $date): self
+    public function afterDate(string $date, bool $strict = false): self
     {
-        $this->eloquentBuilder->where('start_date', '>', $date);
+        if ($strict) {
+            $this->eloquentBuilder->whereDate('start_date', '>', $date);
+        } else {
+            $this->eloquentBuilder->whereDate('start_date', '>=', $date);
+        }
 
         return $this;
     }

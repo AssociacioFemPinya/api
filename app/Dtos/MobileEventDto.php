@@ -55,8 +55,6 @@ class MobileEventDto
             3 => 'activity',
         ];
 
-        Log::info("eventFromModel", [$event]);
-
         $dto = new self(
             id: $event->id_event,
             title: $event->name,

@@ -34,8 +34,9 @@ final class MobileEventsStateProvider extends AbstractStateProvider
         // Apply filters based on params
         foreach ($this->parameters as $key => $value) {
             match ($key) {
-                'showAnswered' => $eventsFilter->showAnswered(),
-                'showUnknown' => $eventsFilter->showUnknown(),
+                'showAnswered' => filter_var($value, FILTER_VALIDATE_BOOLEAN) ? $eventsFilter->showAnswered() : null,
+                'showUndefined' => filter_var($value, FILTER_VALIDATE_BOOLEAN) ? $eventsFilter->showUndefined() : null,
+                //showWarning not implemented
                 'startDate' => $eventsFilter->afterDate($value),
                 'endDate' => $eventsFilter->beforeDate($value),
                 'eventTypeFilters' => $eventsFilter->withTypes($value), // expect params in array like: eventTypeFilters\[\]\=2\&eventTypeFilters\[\]\=2
