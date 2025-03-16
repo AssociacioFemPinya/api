@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 
+use ApiPlatform\State\ProcessorInterface;
 use App\State\EventsStateProvider;
 use ApiPlatform\State\ProviderInterface;
 use ApiPlatform\Laravel\Eloquent\State\PersistProcessor;
@@ -29,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->tag(EventsStateProvider::class, ProviderInterface::class);
         $this->app->tag(TagsStateProvider::class, ProviderInterface::class);
         $this->app->tag(MobileEventsStateProvider::class, ProviderInterface::class);
-        $this->app->tag([MobileEventsStateProcessor::class], [PersistProcessor::class, RemoveProcessor::class,]);
+        $this->app->tag(MobileEventsStateProcessor::class, [PersistProcessor::class, RemoveProcessor::class,ProcessorInterface::class]);
     }
 }

@@ -5,26 +5,33 @@ namespace App\Dto;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\GetCollection; 
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiProperty;
 use App\Models\Event;
 use App\State\MobileEventsStateProvider;
 use App\State\MobileEventsStateProcessor;
-use Illuminate\Support\Facades\Log;
+
 
 #[ApiResource(
     shortName: 'MobileEvent',
     operations: [
         new Get(provider: MobileEventsStateProvider::class),
         new GetCollection(provider: MobileEventsStateProvider::class),
-        new Put(processor: MobileEventsStateProcessor::class),
+        new Put(
+            provider: MobileEventsStateProvider::class,
+            processor: MobileEventsStateProcessor::class,
+        ),
     ],
     paginationEnabled: false
 )]
 
 class MobileEventDto
 {
+    #[ApiProperty(identifier: true)]
+    public $id;
+
     public function __construct(
-        public int $id,
+        public int $id_event,
         public string $title,
         public ?string $startDate = null,
         public ?string $endDate = null,
@@ -51,10 +58,8 @@ class MobileEventDto
             3 => 'activity',
         ];
 
-        Log::info("fromModel", [$event->id_event]);
-
-        return new self(
-            id: $event->id_event,
+        $dto = new self(
+            id_event: $event->id_event,
             title: $event->name,
             startDate: $event->start_date,
             endDate: $event->close_date,
@@ -65,5 +70,7 @@ class MobileEventDto
             companions: $event->companions,
             // tags is not generated for Collection, only for single item. It must be generated in a separate query
         );
+//        $dto->id = "/mobile_events/{$event->id_event}";
+        return $dto;
     }
 }

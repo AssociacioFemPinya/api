@@ -35,19 +35,18 @@ abstract class AbstractStateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
+        // if ($operation instanceof DeleteOperationInterface) {
 
-        if ($operation instanceof DeleteOperationInterface) {
+        //     $data = $this->preRemoveProcessor($data);
+        //     $data = $this->removeProcessor->process($data, $operation, $uriVariables, $context);
+        //     $data = $this->postRemoveProcessor($data);
 
-            $data = $this->preRemoveProcessor($data);
-            $data = $this->removeProcessor->process($data, $operation, $uriVariables, $context);
-            $data = $this->postRemoveProcessor($data);
+        // } else {
 
-        } else {
-
-            $data = $this->preProcessProcessor($data);
-            $data = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
-            $data = $this->postProcessProcessor($data);
-        }
+        //     $data = $this->preProcessProcessor($data);
+        //     $data = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
+        //     $data = $this->postProcessProcessor($data);
+        // }
 
         return $data;
 

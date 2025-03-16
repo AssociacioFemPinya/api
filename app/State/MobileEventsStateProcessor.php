@@ -2,13 +2,10 @@
 
 namespace App\State;
 
-use App\Dto\MobileEventDto;
 use App\Models\Attendance;
 use App\Models\Event;
 use ApiPlatform\Laravel\Eloquent\State\PersistProcessor;
 use ApiPlatform\Laravel\Eloquent\State\RemoveProcessor;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Illuminate\Support\Facades\Log;
 
 class MobileEventsStateProcessor extends AbstractStateProcessor
 {
@@ -19,23 +16,24 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
 
     protected function preProcessProcessor(mixed $data): mixed
     {
-        Log::info('preProcessProcessor');
-        if (!$data instanceof MobileEventDto) {
-            throw new BadRequestHttpException('Invalid DTO');
-        }
-        if (is_null($this->casteller)) {
-            Log::info('Casteller not found');
-            abort(404, 'Events not found');
-        }
+        // Log::info('preProcessProcessor');
+        // if (!$data instanceof MobileEventDto) {
+        //     throw new BadRequestHttpException('Invalid DTO');
+        // }
+        // if (is_null($this->casteller)) {
+        //     Log::info('Casteller not found');
+        //     abort(404, 'Events not found');
+        // }
 
-        $attendance = Attendance::where('event_id', $data->id)
-            ->where('casteller_id', $this->casteller->getId())
-            ->first();
+        // $attendance = Attendance::where('event_id', $data->id)
+        //     ->where('casteller_id', $this->casteller->getId())
+        //     ->first();
 
-        $this->updateAttendanceStatus($attendance, $data->status);
-        $this->updateAttendanceOptions($attendance, $data->tags, $data->id);
-        $attendance->companions = $data->companions;
+        //$this->updateAttendanceStatus($attendance, $data->status);
+        //$this->updateAttendanceOptions($attendance, $data->tags, $data->id);
+        //$attendance->companions = $data->companions;
 
+        $attendance = Attendance::first();
         return $attendance;
     }
 

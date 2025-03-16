@@ -7,7 +7,7 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use App\Models\Event;
 use App\Dto\MobileEventDto;
-use Illuminate\Support\Facades\Log;
+
 
 class EventTag {
     public function __construct(
