@@ -35,39 +35,39 @@ abstract class AbstractStateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        // if ($operation instanceof DeleteOperationInterface) {
+        if ($operation instanceof DeleteOperationInterface) {
 
-        //     $data = $this->preRemoveProcessor($data);
-        //     $data = $this->removeProcessor->process($data, $operation, $uriVariables, $context);
-        //     $data = $this->postRemoveProcessor($data);
+            $data = $this->preRemoveProcessor($data);
+            //$data = $this->removeProcessor->process($data, $operation, $uriVariables, $context);
+            $data = $this->postRemoveProcessor($data);
 
-        // } else {
+        } else {
 
-        //     $data = $this->preProcessProcessor($data);
-        //     $data = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
-        //     $data = $this->postProcessProcessor($data);
-        // }
+            $data = $this->preProcessProcessor($data, $uriVariables);
+            //$data = $this->persistProcessor->process($data, $operation, $uriVariables, $context);
+            $data = $this->postProcessProcessor($data, $uriVariables);
+        }
 
         return $data;
 
     }
 
-    protected function preRemoveProcessor($data): mixed
+    protected function preRemoveProcessor(mixed $data): mixed
     {
         return $data;
     }
 
-    protected function postRemoveProcessor($data): mixed
+    protected function postRemoveProcessor(mixed $data): mixed
     {
         return $data;
     }
 
-    protected function preProcessProcessor($data): mixed
+    protected function preProcessProcessor(mixed $data, array $uriVariables = []): mixed
     {
         return $data;
     }
 
-    protected function postProcessProcessor($data): mixed
+    protected function postProcessProcessor(mixed $data, array $uriVariables = []): mixed
     {
         return $data;
     }

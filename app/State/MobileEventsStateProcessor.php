@@ -6,6 +6,9 @@ use App\Models\Attendance;
 use App\Models\Event;
 use ApiPlatform\Laravel\Eloquent\State\PersistProcessor;
 use ApiPlatform\Laravel\Eloquent\State\RemoveProcessor;
+use App\Dto\MobileEventDto;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Illuminate\Support\Facades\Log;
 
 class MobileEventsStateProcessor extends AbstractStateProcessor
 {
@@ -14,30 +17,44 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
         parent::__construct($persistProcessor, $removeProcessor);
     }
 
-    protected function preProcessProcessor(mixed $data): mixed
+    protected function preProcessProcessor(mixed $data, array $uriVariables = []): mixed
     {
-        // Log::info('preProcessProcessor');
-        // if (!$data instanceof MobileEventDto) {
-        //     throw new BadRequestHttpException('Invalid DTO');
-        // }
-        // if (is_null($this->casteller)) {
-        //     Log::info('Casteller not found');
-        //     abort(404, 'Events not found');
-        // }
+        if (!$data instanceof MobileEventDto) {
+            throw new BadRequestHttpException('Invalid DTO');
+        }
+        if (is_null($this->casteller)) {
+            abort(404, 'Events not found');
+        }
 
-        // $attendance = Attendance::where('event_id', $data->id)
-        //     ->where('casteller_id', $this->casteller->getId())
-        //     ->first();
+        $id = $uriVariables['id'] ?? null;
+        if (is_null($id)) {
+            abort(404, 'Event ID is required');
+        }
+        
+        $attendance = Attendance::where('event_id', $id)
+            ->where('casteller_id', $this->casteller->getId())
+            ->first();
 
-        //$this->updateAttendanceStatus($attendance, $data->status);
-        //$this->updateAttendanceOptions($attendance, $data->tags, $data->id);
-        //$attendance->companions = $data->companions;
+        $this->updateAttendanceStatus($attendance, $data->status);
+        $this->updateAttendanceOptions($attendance, $data->tags, $id);
+        $attendance->companions = $data->companions;
 
-        $attendance = Attendance::first();
-        return $attendance;
+        Log::info("preProcessProcessor", [$attendance]);
+        $attendance->save();
+        return $data;
     }
 
-    private function updateAttendanceStatus(Attendance $attendance, ?int $status): void
+    protected function postProcessProcessor(mixed $data, array $uriVariables = []): mixed
+    {
+        // // Transform back into a DTO after saving
+        // if ($data instanceof MobileEventDto) {
+        //     return MobileEventDto::fromModel($data);
+        // }
+
+        return $data;
+    }
+
+    private function updateAttendanceStatus(Attendance $attendance, string $status): void
     {
         $statusMap = [
             null => 'undefined',
@@ -53,20 +70,12 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
         $options = [];
         $eventTags = Event::find($eventId)->tags->pluck('id_tag')->toArray();
         foreach ($tags as $tag) {
-            if ($tag->isEnabled && in_array($tag->id_tag, $eventTags)) {
-                $options[] = $tag->id;
+            Log::info("updateAttendanceOptions", [$tag]);
+            Log::info("updateAttendanceOptions", [$eventTags]);
+            if ($tag["isEnabled"] && in_array($tag["id"], $eventTags)) {
+                $options[] = $tag["id"];
             }
         }
         $attendance->options = json_encode($options);
-    }
-
-    protected function postProcessProcessor(mixed $data): mixed
-    {
-        // // Transform back into a DTO after saving
-        // if ($data instanceof MobileEventDto) {
-        //     return MobileEventDto::fromModel($data);
-        // }
-
-        return $data;
     }
 }

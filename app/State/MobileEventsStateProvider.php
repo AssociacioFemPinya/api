@@ -59,7 +59,7 @@ final class MobileEventsStateProvider extends AbstractStateProvider
                  ->where('attendance.casteller_id', $this->casteller->getId());
             })
             ->where('events.id_event', $id)
-            ->select('events.*', 'attendance.status', 'attendance.options')
+            ->select('events.*', 'attendance.companions', 'attendance.status', 'attendance.options')
             ->firstOrFail();
 
         if ($event->colla_id !== $this->casteller->getColla()->getId()) {

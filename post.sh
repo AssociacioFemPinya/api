@@ -5,14 +5,13 @@ curl -X PUT "http://localhost:8005/api-fempinya/mobile_events/26" \
      -H "Accept: application/json" \
      -H "Content-Type: application/json" \
      -d '{
-           "idEvent": 26,
            "title": "Assaig de Dimecres",
            "startDate": "2025-09-27 22:54:23",
            "endDate": "2025-09-16 23:53:59",
            "address": "Rúa Espinal, 8, 6º C, Badalona, Tarragona",
-           "status": "accepted",
+           "status": "declined",
            "type": "training",
-           "companions": 1,
+           "companions": 5,
            "tags": [
              {
                "id": 18,
@@ -21,4 +20,4 @@ curl -X PUT "http://localhost:8005/api-fempinya/mobile_events/26" \
              }
            ],
            "comment": ""
-         }' | jq
+         }' 
