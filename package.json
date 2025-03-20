@@ -7,6 +7,11 @@
                 "name": "master",
                 "channel": "stable",
                 "prerelease": false
+            },
+            {
+                "name": "dev",
+                "channel": "stable",
+                "prerelease": true
             }
         ],
         "plugins": [
