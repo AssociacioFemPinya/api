@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url): void
     {
-        if (env('FORCE_HTTPS', true)) { // Default value should be false for local server
+        if (env('FORCE_HTTPS', false)) { // Default value should be false for local server
             $url->forceScheme('https');
         }
 
