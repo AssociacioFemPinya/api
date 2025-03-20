@@ -127,3 +127,4 @@ Per mantenir el codi net i ordenat, executa el Pint de Laravel abans de crear la
 [Windows]: https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=fff
 [Windows+WSL2]: https://img.shields.io/static/v1?label=Windows&message=WSL2&color=FCC624&logo=windows&labelColor=0078D6
 [Docker]: https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff
+
