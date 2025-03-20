@@ -1,4 +1,26 @@
 {
+    "name": "fempinya-api",
+    "version": "1.0.0",
+    "release": {
+        "branches": [
+            {
+                "name": "master",
+                "channel": "stable",
+                "prerelease": false
+            },
+            {
+                "name": "dev",
+                "channel": "stable",
+                "prerelease": true
+            }
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
+            "@semantic-release/github"
+        ]
+    },
     "private": true,
     "type": "module",
     "scripts": {
@@ -8,7 +30,8 @@
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.4.2",
-        "autoprefixer": "^10.4.2",
+        "semantic-release": "^21.0.0",
+        "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.0",
