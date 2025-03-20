@@ -13,13 +13,13 @@ return new class () extends Migration {
 
         /* ONLY IF WANT TO STORE CACHE ON DB */
 
-        Schema::create('cache', function (Blueprint $table) {
+        Schema::connection('mysql_api')->create('cache', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->mediumText('value');
             $table->integer('expiration');
         });
 
-        Schema::create('cache_locks', function (Blueprint $table) {
+        Schema::connection('mysql_api')->create('cache_locks', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->string('owner');
             $table->integer('expiration');
@@ -34,7 +34,7 @@ return new class () extends Migration {
 
         /* ONLY IF WANT TO STORE CACHE ON DB */
 
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
+        Schema::connection('mysql_api')->dropIfExists('cache');
+        Schema::connection('mysql_api')->dropIfExists('cache_locks');
     }
 };

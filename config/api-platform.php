@@ -11,14 +11,16 @@ return [
 
     'routes' => [
         // Global middleware applied to every API Platform routes
-        // 'middleware' => 'auth:sanctum'
+        'middleware' => ['auth:sanctum']
     ],
 
     'resources' => [
         app_path('Models'),
+        app_path('Dtos'),
     ],
 
     'formats' => [
+        'json' => ['application/json'],
         'jsonld' => ['application/ld+json'],
         //'jsonapi' => ['application/vnd.api+json'],
         //'csv' => ['text/csv'],
@@ -29,6 +31,7 @@ return [
     ],
 
     'docs_formats' => [
+        'json' => ['application/json'],
         'jsonld' => ['application/ld+json'],
         //'jsonapi' => ['application/vnd.api+json'],
         'jsonopenapi' => ['application/vnd.openapi+json'],
@@ -47,7 +50,7 @@ return [
         'pagination_client_partial' => false,
         'pagination_items_per_page' => 30,
         'pagination_maximum_items_per_page' => 30,
-        'route_prefix' => '/api',
+        'route_prefix' => '/api-fempinya',
         'middleware' => [],
     ],
 
