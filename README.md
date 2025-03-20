@@ -26,8 +26,15 @@
 2. Crea el fitxer .env 
    - Copia el fitxer .env.example a .env
    - Emplena les variables necessàries (En general, les de l'apartat `APP CONFIG`)
-   - A les variables referents a la BBDD, elegeis si vols utilitzar la BBDD del Fempinya o bé crear-ne una de nova
+   - A les variables referents a la BBDD, hi ha dues connexions:
+      - `mysql` -> La que es connecta a la BBDD de Fempinya
+      - `mysql_api` -> La que es connecta a la BBDD de l'API
 
+3. Crea la bases de dades de l'API al container `db`:
+   ```sql
+   CREATE DATABASE '$DB_DATABASE_API';
+   GRANT ALL PRIVILEGES ON '$DB_DATABASE_API'.* TO '$DB_USERNAME_API'@'%';
+   ```
 
 3. Engega els containers
     A la carpeta on hi ha el repositori clonat:
@@ -63,14 +70,14 @@
 2. Crea el fitxer .env 
    - Copia el fitxer .env.example a .env
    - Emplena les variables necessàries (En general, les de l'apartat `APP CONFIG`)
-   - A les variables referents a la BBDD, elegeis si vols utilitzar la BBDD del Fempinya o bé crear-ne una de nova   
+   - A les variables referents a la BBDD, hi ha dues connexions:
+      - `mysql` -> La que es connecta a la BBDD de Fempinya
+      - `mysql_api` -> La que es connecta a la BBDD de l'API
 
-3. Crea 2 bases de dades a MariaDB: `fempinya` i `testing`:
+3. Crea la bases de dades de l'API al mysql local:
    ```sql
-   CREATE DATABASE `fempinya`;
-   GRANT ALL PRIVILEGES ON `fempinya`.* TO '$DB_USERNAME'@'%';
-   CREATE DATABASE `testing`;
-   GRANT ALL PRIVILEGES ON `testing`.* TO '$DB_USERNAME'@'%';
+   CREATE DATABASE '$DB_DATABASE_API';
+   GRANT ALL PRIVILEGES ON '$DB_DATABASE_API'.* TO '$DB_USERNAME_API'@'%';
    ```
 
 4. Instal·la les dependències:
@@ -88,19 +95,18 @@
 
 ## Configuració inicial
 
-Si fas servir docker, executa-ho dins del container:
+Si fas servir docker, executa-ho dins en local o dins del container:
 
 1. Prepara l'app:
    ```shell
    php artisan key:generate
    ```
-2. Prepara la BBDD:
+2. Prepara la BBDD en local:
 
-   - Si fas servir una BBDD nova, revisa les migrations per elegir què vols crear-hi i després executa:
+   - Revisa les migrations per elegir què vols crear-hi i després executa:
    ```shell
-   php artisan artisan migrate
+   php artisan migrate
    ```   
-   - Si fas servir la BBDD de Fempinya, no cal que facis res  
 
 ## Executar tests
 
@@ -121,3 +127,4 @@ Per mantenir el codi net i ordenat, executa el Pint de Laravel abans de crear la
 [Windows]: https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=fff
 [Windows+WSL2]: https://img.shields.io/static/v1?label=Windows&message=WSL2&color=FCC624&logo=windows&labelColor=0078D6
 [Docker]: https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff
+

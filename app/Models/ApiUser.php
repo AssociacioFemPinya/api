@@ -3,15 +3,36 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+#[ApiResource(
+    shortName: 'ApiUser',
+    operations: [
+        new Get(
+        ),
+        new GetCollection(
+        ),
+    ],
+)]
+class ApiUser extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasApiTokens;
     use HasFactory;
     use Notifiable;
+
+
+    protected $connection = 'mysql_api';
+    protected $table = 'api_users';
+    protected $primaryKey = 'id_api_user';
+
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +40,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
@@ -45,5 +65,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relations
+
+    // TODO: This is not correct, fix the relation
+    public function getCastellerActive(): ?Casteller
+    {
+        return Casteller::where('id_casteller', $this->id_api_user)->first();
     }
 }
