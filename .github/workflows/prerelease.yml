@@ -51,4 +51,4 @@ jobs:
           context: .
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          file: build/App.Dockerfile
+          file: docker-config/Dockerfile
