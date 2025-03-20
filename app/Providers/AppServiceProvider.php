@@ -10,6 +10,7 @@ use App\State\TagsStateProvider;
 use App\State\MobileEventsStateProvider;
 use App\State\MobileEventsStateProcessor;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\UrlGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,8 +24,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(UrlGenerator $url): void
     {
+        if (env('FORCE_HTTPS', true)) { // Default value should be false for local server
+            $url->forceScheme('https');
+        }
+
         $this->app->tag(EventsStateProvider::class, ProviderInterface::class);
         $this->app->tag(TagsStateProvider::class, ProviderInterface::class);
         $this->app->tag(MobileEventsStateProvider::class, ProviderInterface::class);
