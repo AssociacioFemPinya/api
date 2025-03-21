@@ -16,7 +16,7 @@ return [
 
     'resources' => [
         app_path('Models'),
-        app_path('Dtos'),
+        app_path('Dto'),
     ],
 
     'formats' => [

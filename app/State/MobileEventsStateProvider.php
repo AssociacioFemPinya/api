@@ -25,7 +25,7 @@ final class MobileEventsStateProvider extends AbstractStateProvider
             abort(404, 'Events not found');
         }
 
-        $eventsFilter = Event::filter($this->casteller->getColla())
+        $eventsFilter = Event::filter($this->colla)
             ->upcoming()
             ->visible()
             ->withCastellerTags($this->casteller->tagsArray('id_tag'))
@@ -60,12 +60,9 @@ final class MobileEventsStateProvider extends AbstractStateProvider
                  ->where('attendance.casteller_id', $this->casteller->getId());
             })
             ->where('events.id_event', $id)
+            ->where('events.colla_id', $this->colla->getId())
             ->select('events.*', 'attendance.companions', 'attendance.status', 'attendance.options')
             ->firstOrFail();
-
-        if ($event->colla_id !== $this->casteller->getColla()->getId()) {
-            abort(404, 'Event not found');
-        }
 
         $eventTags = [];
         $eventOptions = json_decode($event->options ?? "[]", true);
