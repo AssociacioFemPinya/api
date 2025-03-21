@@ -24,3 +24,7 @@ yarn-error.log
 /.zed
 /docker-config/mysql/data/*
 /errors
+
+**/caddy
+frankenphp
+frankenphp-worker.php
