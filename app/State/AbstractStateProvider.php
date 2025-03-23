@@ -31,14 +31,15 @@ abstract class AbstractStateProvider implements ProviderInterface
             Log::debug('Error getting the authenticated user: ' . $e->getMessage());
         }
 
-        if (is_null($this->casteller)) {
-            abort(404, 'Casteller not found');
-        }
-
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
+
+        if (is_null($this->casteller)) {
+            abort(404, 'Casteller not found');
+        }
+        
         $this->parameters = $this->parseParameters($context);
 
         if ($operation instanceof CollectionOperationInterface) {
