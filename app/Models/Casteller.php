@@ -80,4 +80,14 @@ class Casteller extends Model
         return $this->getAttribute('colla');
     }
 
+    public function getDisplayName(string $config = ' [alias]  [name] [last_name]'): string
+    {
+        return $this->getAlias();
+    }
+    
+    public function getAlias(): string
+    {
+        return $this->getAttribute('alias');
+    }
+
 }

@@ -6,8 +6,10 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\CollaConfig;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[ApiResource(
     shortName: 'Colla',
@@ -21,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Colla extends Model
 {
     protected $connection = 'mysql';
+
     protected $table = 'colles';
 
     #[ApiProperty(identifier: true)]
@@ -30,6 +33,11 @@ class Colla extends Model
     public function getId(): int
     {
         return $this->getAttribute('id_colla');
+    }
+
+    public function getConfig(): ?CollaConfig
+    {
+        return $this->getAttribute('config');
     }
 
     // RELATIONS
@@ -42,6 +50,11 @@ class Colla extends Model
     public function castellers(): ?HasMany
     {
         return $this->hasMany(Casteller::class, 'colla_id', 'id_colla');
+    }
+
+    public function config(): ?HasOne
+    {
+        return $this->hasOne(CollaConfig::class, 'colla_id', 'id_colla');
     }
 
 }

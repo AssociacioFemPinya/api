@@ -19,6 +19,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
 {
     protected $casteller = null;
     protected $colla = null;
+    protected $apiUser = null;
     protected $parameters = [];
     protected $modelClass = null;
     protected $modelClassDto = null;

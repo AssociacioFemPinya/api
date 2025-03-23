@@ -9,6 +9,7 @@ use App\State\TagsStateProvider;
 use App\State\MobileEventsStateProvider;
 use App\State\MobileEventsStateProcessor;
 use App\State\MobileNotificationsStateProvider;
+use App\State\MobileUserContextStateProvider;
 use App\State\NotificationsStateProvider;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\UrlGenerator;
@@ -36,12 +37,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->tag(NotificationsStateProvider::class, ProviderInterface::class);
         $this->app->tag(TagsStateProvider::class, ProviderInterface::class);
 
-        // APP PROVIDERS
+        // MOBILE PROVIDERS
 
         $this->app->tag(MobileEventsStateProvider::class, ProviderInterface::class);
         $this->app->tag(MobileNotificationsStateProvider::class, ProviderInterface::class);
+        $this->app->tag(MobileUserContextStateProvider::class, ProviderInterface::class);
 
-        // APP PROCESSORS
+        // MOBILE PROCESSORS
 
         $this->app->tag(MobileEventsStateProcessor::class, ProcessorInterface::class);
     }
