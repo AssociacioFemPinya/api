@@ -8,11 +8,13 @@ use ApiPlatform\State\ProviderInterface;
 use App\State\TagsStateProvider;
 use App\State\MobileEventsStateProvider;
 use App\State\MobileEventsStateProcessor;
+use App\State\MobileRondesStateProvider;
 use App\State\MobileNotificationsStateProvider;
 use App\State\MobileUserContextStateProvider;
 use App\State\NotificationsStateProvider;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\UrlGenerator;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->tag(MobileEventsStateProvider::class, ProviderInterface::class);
         $this->app->tag(MobileNotificationsStateProvider::class, ProviderInterface::class);
+        $this->app->tag(MobileRondesStateProvider::class, ProviderInterface::class);
         $this->app->tag(MobileUserContextStateProvider::class, ProviderInterface::class);
 
         // MOBILE PROCESSORS

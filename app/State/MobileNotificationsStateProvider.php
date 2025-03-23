@@ -11,7 +11,6 @@ final class MobileNotificationsStateProvider extends MobileAbstractStateProvider
 {
     protected function getModels(): Collection
     {
-
         $notifications = [];
         $column_order = 'created_at';
         $dir = 'DESC';
@@ -24,7 +23,5 @@ final class MobileNotificationsStateProvider extends MobileAbstractStateProvider
             ->get();
 
         return $notificationsAll;
-
     }
-
 }
