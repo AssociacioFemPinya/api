@@ -35,10 +35,10 @@ class Ronda extends Model
     //     return $this->hasOne(BoardEvent::class, 'id', 'board_event_id');
     // }
 
-    // public function getId(): int
-    // {
-    //     return $this->getAttribute('id_ronda');
-    // }
+    public function getId(): int
+    {
+        return $this->getAttribute('id_ronda');
+    }
 
     // public function getEvent(): Event
     // {
