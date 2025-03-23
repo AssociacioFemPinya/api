@@ -7,25 +7,24 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use App\Models\Event;
 use App\Dto\MobileEventDto;
+use Illuminate\Database\Eloquent\Collection;
 
-
-class EventTag {
+class EventTag
+{
     public function __construct(
         public int $id,
         public string $name,
         public bool $isEnabled,
-    ) {}
+    ) {
+    }
 }
 
-final class MobileEventsStateProvider extends AbstractStateProvider
+final class MobileEventsStateProvider extends MobileAbstractStateProvider
 {
-    protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
+    protected function getModels(): Collection
     {
-        if (is_null($this->casteller)) {
-            abort(404, 'Events not found');
-        }
 
-        $eventsFilter = Event::filter($this->colla)
+        $eventsFilter = $this->modelClass::filter($this->colla)
             ->upcoming()
             ->visible()
             ->withCastellerTags($this->casteller->tagsArray('id_tag'))
@@ -44,8 +43,8 @@ final class MobileEventsStateProvider extends AbstractStateProvider
             };
         }
 
-        $events = $eventsFilter->eloquentBuilder()->get();
-        return $events->map(fn($event): MobileEventDto => MobileEventDto::fromModel(event: $event));
+        return $eventsFilter->eloquentBuilder()->get();
+
     }
 
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
@@ -55,10 +54,10 @@ final class MobileEventsStateProvider extends AbstractStateProvider
             abort(404, 'Event ID is required');
         }
 
-        $event = Event::leftJoin('attendance', function($join) {
+        $event = Event::leftJoin('attendance', function ($join) {
             $join->on('events.id_event', '=', 'attendance.event_id')
                  ->where('attendance.casteller_id', $this->casteller->getId());
-            })
+        })
             ->where('events.id_event', $id)
             ->where('events.colla_id', $this->colla->getId())
             ->select('events.*', 'attendance.companions', 'attendance.status', 'attendance.options')
@@ -66,7 +65,7 @@ final class MobileEventsStateProvider extends AbstractStateProvider
 
         $eventTags = [];
         $eventOptions = json_decode($event->options ?? "[]", true);
-        foreach ($event->tags as $tag){
+        foreach ($event->tags as $tag) {
             $eventTags[] = new EventTag($tag->id_tag, $tag->name, in_array($tag->id_tag, $eventOptions));
         }
 

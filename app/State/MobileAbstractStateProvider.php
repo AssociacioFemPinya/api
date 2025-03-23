@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use App\Models\ApiUser;
+use Illuminate\Database\Eloquent\Collection;
 
-abstract class AbstractStateProvider implements ProviderInterface
+abstract class MobileAbstractStateProvider implements ProviderInterface
 {
     protected $casteller = null;
     protected $colla = null;
     protected $parameters = [];
-    protected $filter;
+    protected $modelClass = null;
+    protected $modelClassDto = null;
 
     public function __construct(
         protected ItemProvider $itemProvider,
@@ -39,12 +41,17 @@ abstract class AbstractStateProvider implements ProviderInterface
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
+        $this->modelClassDto = $operation->getClass();
+        $this->modelClass = "\\App\\Models\\".$this->modelClassDto::MODEL_CLASS;
+
         $this->parameters = $this->parseParameters($context);
 
         if ($operation instanceof CollectionOperationInterface) {
+
             extract($this->preCollectionProvider($operation, $uriVariables, $context));
             $data = $this->collectionProvider($operation, $uriVariables, $context);
             $data = $this->postCollectionProvider($data);
+
         } else {
 
             if (!isset($uriVariables['id'])) {
@@ -61,13 +68,24 @@ abstract class AbstractStateProvider implements ProviderInterface
 
     protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        return $this->collectionProvider->provide($operation, $uriVariables, $context);
+
+        foreach ($this->getModels() as $model) {
+
+            $models[] = $this->modelClassDto::fromModel($model);
+        }
+
+        return $models;
+
     }
 
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        return $this->itemProvider->provide($operation, $uriVariables, $context);
+        $id = $uriVariables['id'] ?? null;
+        $model = $this->modelClass::where('colla_id', $this->colla->getId())->findOrFail($id);
+
+        return $this->modelClassDto::fromModel($model);
     }
+
 
     protected function preCollectionProvider(Operation $operation, array $uriVariables = [], array $context = []): array
     {
@@ -128,5 +146,14 @@ abstract class AbstractStateProvider implements ProviderInterface
                 return $this->casteller->getColla();
             });
         }
+    }
+
+    protected function getModels(): Collection
+    {
+        $modelsAll = $this->modelClass::filter($this->colla)
+        ->eloquentBuilder()
+        ->get();
+
+        return $modelsAll;
     }
 }

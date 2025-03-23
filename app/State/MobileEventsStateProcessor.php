@@ -8,7 +8,6 @@ use ApiPlatform\Laravel\Eloquent\State\PersistProcessor;
 use ApiPlatform\Laravel\Eloquent\State\RemoveProcessor;
 use App\Dto\MobileEventDto;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Illuminate\Support\Facades\Log;
 
 class MobileEventsStateProcessor extends AbstractStateProcessor
 {
@@ -30,7 +29,7 @@ class MobileEventsStateProcessor extends AbstractStateProcessor
         if (is_null($id)) {
             abort(404, 'Event ID is required');
         }
-        
+
         $attendance = Attendance::where('event_id', $id)
             ->where('casteller_id', $this->casteller->getId())
             ->first();
