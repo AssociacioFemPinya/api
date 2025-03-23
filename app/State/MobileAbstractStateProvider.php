@@ -136,11 +136,12 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
             $cacheKey = "casteller_active_{$identifiedUserId}";
             $collaCacheKey = "colla_active_{$identifiedUserId}";
 
+            $this->apiUser = ApiUser::find($identifiedUserId);
+
             // Try to retrieve from the cache first
             $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                 // If not found in cache, retrieve from DB
-                $apiUser = ApiUser::find($identifiedUserId);
-                return $apiUser ? $apiUser->getCastellerActive() : null;
+                return $this->apiUser ? $this->apiUser->getCastellerActive() : null;
             });
             $this->colla = Cache::remember($collaCacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                 // If not found in cache, retrieve from DB

@@ -15,28 +15,8 @@ use App\Models\ApiUser;
 
 use function PHPSTORM_META\map;
 
-final class MobileUserContextStateProvider implements ProviderInterface
+final class MobileUserContextStateProvider extends MobileAbstractStateProvider
 {
-
-    protected $apiUser =  null;
-    protected $casteller = null;
-    protected $colla = null;
-    protected $modelClassDto = null;
-
-
-    public function __construct(
-    ) {
-        try {
-            $this->setUserInfo();
-        } catch (\Exception $e) {
-            Log::debug('Error getting the authenticated user: ' . $e->getMessage());
-        }
-
-        if (is_null($this->casteller)) {
-            abort(404, 'Casteller not found');
-        }
-
-    }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
@@ -64,28 +44,6 @@ final class MobileUserContextStateProvider implements ProviderInterface
             $this->colla->config->getBoardsEnabled()
         ]);
 
-    }
-
-    private function setUserInfo(): void
-    {
-        // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
-        if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
-            // Cache key could be a combination of user ID to make it unique per user
-            $cacheKey = "casteller_active_{$identifiedUserId}";
-            $collaCacheKey = "colla_active_{$identifiedUserId}";
-
-            $this->apiUser = ApiUser::find($identifiedUserId);
-
-            // Try to retrieve from the cache first
-            $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
-                // If not found in cache, retrieve from DB
-                return $this->apiUser ? $this->apiUser->getCastellerActive() : null;
-            });
-            $this->colla = Cache::remember($collaCacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
-                // If not found in cache, retrieve from DB
-                return $this->casteller->getColla();
-            });
-        }
     }
 
 }
