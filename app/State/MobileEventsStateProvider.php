@@ -7,7 +7,7 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use App\Models\Event;
 use App\Dto\MobileEventDto;
-
+use Illuminate\Database\Eloquent\Collection;
 
 class EventTag {
     public function __construct(
@@ -17,15 +17,12 @@ class EventTag {
     ) {}
 }
 
-final class MobileEventsStateProvider extends AbstractStateProvider
+final class MobileEventsStateProvider extends MobileAbstractStateProvider
 {
-    protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
-    {
-        if (is_null($this->casteller)) {
-            abort(404, 'Events not found');
-        }
+    protected function getModels() : Collection
+        {
 
-        $eventsFilter = Event::filter($this->colla)
+        $eventsFilter = $this->modelClass::filter($this->colla)
             ->upcoming()
             ->visible()
             ->withCastellerTags($this->casteller->tagsArray('id_tag'))
@@ -44,8 +41,8 @@ final class MobileEventsStateProvider extends AbstractStateProvider
             };
         }
 
-        $events = $eventsFilter->eloquentBuilder()->get();
-        return $events->map(fn($event): MobileEventDto => MobileEventDto::fromModel(event: $event));
+        return $eventsFilter->eloquentBuilder()->get();
+
     }
 
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed

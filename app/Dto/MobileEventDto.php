@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Log;
 
 class MobileEventDto
 {
+    public const MODEL_CLASS = 'Event';
+
     public function __construct(
         public ?int $id = null,
         public ?string $title = '',
