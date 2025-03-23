@@ -68,7 +68,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
 
     protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-
+        $models = [];  
         foreach ($this->getModels() as $model) {
 
             $models[] = $this->modelClassDto::fromModel($model);

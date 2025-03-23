@@ -44,4 +44,9 @@ class Colla extends Model
         return $this->hasMany(Casteller::class, 'colla_id', 'id_colla');
     }
 
+    public function getShortName(): ?string
+    {
+        return $this->getAttribute('shortname');
+    }
+
 }

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[ApiResource(
     shortName: 'Event',
@@ -69,6 +70,11 @@ class Event extends Model
     public function tags(): ?BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'event_tag', 'event_id', 'tag_id');
+    }
+
+    public function rondes(): ?HasMany
+    {
+        return $this->hasMany(Ronda::class, 'event_id', 'id_event');
     }
 
 }
