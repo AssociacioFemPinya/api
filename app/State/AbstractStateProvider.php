@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use App\Models\ApiUser;
-use App\Services\Filters\BaseFilter;
 
 abstract class AbstractStateProvider implements ProviderInterface
 {
@@ -25,7 +24,7 @@ abstract class AbstractStateProvider implements ProviderInterface
     public function __construct(
         protected ItemProvider $itemProvider,
         protected CollectionProvider $collectionProvider
-        ) {
+    ) {
         try {
             $this->setUserInfo();
         } catch (\Exception $e) {
@@ -110,14 +109,14 @@ abstract class AbstractStateProvider implements ProviderInterface
         return $parameters;
     }
 
-    private function setUserInfo() : void
+    private function setUserInfo(): void
     {
         // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
         if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
             // Cache key could be a combination of user ID to make it unique per user
             $cacheKey = "casteller_active_{$identifiedUserId}";
             $collaCacheKey = "colla_active_{$identifiedUserId}";
-        
+
             // Try to retrieve from the cache first
             $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                 // If not found in cache, retrieve from DB

@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\NotificationStateEnum;
 use App\Helpers\DateHelper;
-use App\Models\NotificationOrder;
 use App\Traits\FilterableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

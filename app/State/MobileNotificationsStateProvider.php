@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace App\State;
 
-use ApiPlatform\Metadata\Operation;
-use App\Models\Event;
-use App\Dto\MobileEventDto;
-use App\Dto\MobileNotificationDto;
 use App\Enums\NotificationTypeEnum;
-use App\Models\Notification;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
 
 final class MobileNotificationsStateProvider extends MobileAbstractStateProvider
 {
-    protected function getModels() : Collection
+    protected function getModels(): Collection
     {
 
         $notifications = [];

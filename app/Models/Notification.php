@@ -7,10 +7,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Enums\NotificationTypeEnum;
 use App\Helpers\DateHelper;
-use App\Models\Casteller;
-use App\Models\Colla;
-use App\Models\Event;
-use App\Models\NotificationOrder;
 use App\State\NotificationsStateProvider;
 use App\Traits\FilterableTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -40,7 +36,7 @@ class Notification extends Model
     use FilterableTrait;
 
     protected $connection = 'mysql';
-    
+
     protected $table = 'notifications';
 
     protected $primaryKey = 'id_notification';

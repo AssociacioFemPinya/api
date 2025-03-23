@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use App\Models\ApiUser;
-use App\Services\Filters\BaseFilter;
 use Illuminate\Database\Eloquent\Collection;
 
 abstract class MobileAbstractStateProvider implements ProviderInterface
@@ -27,7 +26,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
     public function __construct(
         protected ItemProvider $itemProvider,
         protected CollectionProvider $collectionProvider
-        ) {
+    ) {
         try {
             $this->setUserInfo();
         } catch (\Exception $e) {
@@ -69,7 +68,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
 
     protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-       
+
         foreach ($this->getModels() as $model) {
 
             $models[] = $this->modelClassDto::fromModel($model);
@@ -82,8 +81,8 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $id = $uriVariables['id'] ?? null;
-        $model = $this->modelClass::where('colla_id',$this->colla->getId())->findOrFail($id);
-        
+        $model = $this->modelClass::where('colla_id', $this->colla->getId())->findOrFail($id);
+
         return $this->modelClassDto::fromModel($model);
     }
 
@@ -128,14 +127,14 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
         return $parameters;
     }
 
-    private function setUserInfo() : void
+    private function setUserInfo(): void
     {
         // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
         if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
             // Cache key could be a combination of user ID to make it unique per user
             $cacheKey = "casteller_active_{$identifiedUserId}";
             $collaCacheKey = "colla_active_{$identifiedUserId}";
-        
+
             // Try to retrieve from the cache first
             $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                 // If not found in cache, retrieve from DB
@@ -149,7 +148,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
         }
     }
 
-    protected function getModels() : Collection
+    protected function getModels(): Collection
     {
         $modelsAll = $this->modelClass::filter($this->colla)
         ->eloquentBuilder()

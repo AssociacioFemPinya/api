@@ -17,17 +17,20 @@ class NotificationLogsFilter extends BaseFilter
             'notification_order',
             'notification_order.id_notification_order',
             '=',
-            'notification_log.notification_order_id')
+            'notification_log.notification_order_id'
+        )
             ->leftJoin(
                 'castellers',
                 'castellers.id_casteller',
                 '=',
-                'notification_order.casteller_id')
+                'notification_order.casteller_id'
+            )
             ->leftJoin(
                 'notifications',
                 'notifications.id_notification',
                 '=',
-                'notification_order.notification_id')
+                'notification_order.notification_id'
+            )
             ->where('notifications.colla_id', $colla->getId())
             ->with('notification_order.casteller')
             ->with('notification_order.notification')

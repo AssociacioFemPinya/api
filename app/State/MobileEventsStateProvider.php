@@ -9,18 +9,20 @@ use App\Models\Event;
 use App\Dto\MobileEventDto;
 use Illuminate\Database\Eloquent\Collection;
 
-class EventTag {
+class EventTag
+{
     public function __construct(
         public int $id,
         public string $name,
         public bool $isEnabled,
-    ) {}
+    ) {
+    }
 }
 
 final class MobileEventsStateProvider extends MobileAbstractStateProvider
 {
-    protected function getModels() : Collection
-        {
+    protected function getModels(): Collection
+    {
 
         $eventsFilter = $this->modelClass::filter($this->colla)
             ->upcoming()
@@ -52,10 +54,10 @@ final class MobileEventsStateProvider extends MobileAbstractStateProvider
             abort(404, 'Event ID is required');
         }
 
-        $event = Event::leftJoin('attendance', function($join) {
+        $event = Event::leftJoin('attendance', function ($join) {
             $join->on('events.id_event', '=', 'attendance.event_id')
                  ->where('attendance.casteller_id', $this->casteller->getId());
-            })
+        })
             ->where('events.id_event', $id)
             ->where('events.colla_id', $this->colla->getId())
             ->select('events.*', 'attendance.companions', 'attendance.status', 'attendance.options')
@@ -63,7 +65,7 @@ final class MobileEventsStateProvider extends MobileAbstractStateProvider
 
         $eventTags = [];
         $eventOptions = json_decode($event->options ?? "[]", true);
-        foreach ($event->tags as $tag){
+        foreach ($event->tags as $tag) {
             $eventTags[] = new EventTag($tag->id_tag, $tag->name, in_array($tag->id_tag, $eventOptions));
         }
 

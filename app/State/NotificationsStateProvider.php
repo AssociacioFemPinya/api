@@ -21,7 +21,7 @@ final class NotificationsStateProvider extends AbstractStateProvider
             return $notificationsFilter->eloquentBuilder()->get();
 
         } else {
-            
+
             $notifications = Notification::query();
 
             if (array_key_exists('type', $this->parameters)) {

@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-
 use ApiPlatform\State\ProcessorInterface;
 use App\State\EventsStateProvider;
 use ApiPlatform\State\ProviderInterface;
-use App\Dto\MobileNotificationDto;
 use App\State\TagsStateProvider;
 use App\State\MobileEventsStateProvider;
 use App\State\MobileEventsStateProcessor;

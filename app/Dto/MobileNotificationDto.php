@@ -5,12 +5,8 @@ namespace App\Dto;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Enums\NotificationTypeEnum;
-use App\Models\Colla;
 use App\Models\Notification;
 use App\State\MobileNotificationsStateProvider;
-use Illuminate\Support\Facades\Log;
-
 
 #[ApiResource(
     shortName: 'MobileNotification',
@@ -27,14 +23,15 @@ class MobileNotificationDto
 
     public function __construct(
         public ?int $id = null,
-        public ?string $body = '',        
+        public ?string $body = '',
         public ?string $title = '',
         public ?string $date = null,
         //TODO: Implement if Notification has been read
         public ?bool $isRead = true,
-    ) {}
+    ) {
+    }
 
-    public static function fromModel(Notification $notification): self 
+    public static function fromModel(Notification $notification): self
     {
         $dto = new self(
             id: $notification->getId(),

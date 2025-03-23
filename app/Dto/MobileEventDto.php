@@ -9,8 +9,6 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Models\Event;
 use App\State\MobileEventsStateProvider;
 use App\State\MobileEventsStateProcessor;
-use Illuminate\Support\Facades\Log;
-
 
 #[ApiResource(
     shortName: 'MobileEvent',
@@ -41,9 +39,11 @@ class MobileEventDto
         public ?int $companions = null,
         public ?array $tags = [],
         public ?string $comment = '',
-    ) {}
+    ) {
+    }
 
-    public static function fromModel(Event $event): MobileEventDto {
+    public static function fromModel(Event $event): MobileEventDto
+    {
         $statusMap = [
             null => 'undefined',
             1 => 'accepted',

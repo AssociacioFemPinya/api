@@ -18,7 +18,7 @@ abstract class AbstractStateProcessor implements ProcessorInterface
 {
     protected $casteller = null;
     protected $colla = null;
-    
+
     public function __construct(
         protected PersistProcessor $persistProcessor,
         protected RemoveProcessor $removeProcessor
@@ -30,7 +30,7 @@ abstract class AbstractStateProcessor implements ProcessorInterface
                 // Cache key could be a combination of user ID to make it unique per user
                 $castellerCacheKey = "casteller_active_{$identifiedUserId}";
                 $collaCacheKey = "colla_active_{$identifiedUserId}";
-            
+
                 // Try to retrieve from the cache first
                 $this->casteller = Cache::remember($castellerCacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                     // If not found in cache, retrieve from DB

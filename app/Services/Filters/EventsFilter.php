@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Filters;
 
 use App\Models\Colla;
-use App\Enums\EventTypeEnum;
 use App\Enums\FilterSearchTypesEnum;
 use App\Enums\AttendanceStatusEnum;
 use App\Models\Event;
@@ -16,7 +15,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class EventsFilter extends BaseFilter
 {
@@ -35,7 +33,7 @@ class EventsFilter extends BaseFilter
     public function showCastellerAttendance(int $id_casteller): self
     {
         $this->eloquentBuilder
-        ->leftJoin('attendance', function($join) use ($id_casteller) {
+        ->leftJoin('attendance', function ($join) use ($id_casteller) {
             $join->on('events.id_event', '=', 'attendance.event_id')
                  ->where('attendance.casteller_id', $id_casteller);
         })->addSelect('attendance.status');
@@ -164,14 +162,14 @@ class EventsFilter extends BaseFilter
             'performance' => 2,
             'activity' => 3,
         ];
-        
+
         $status = array_map(function ($value) use ($typeMap) {
             return $typeMap[$value];
         }, $status);
 
         $this->eloquentBuilder->where(function ($query) use ($status) {
             foreach ($status as $value) {
-            $query->orWhere('events.type', $value);
+                $query->orWhere('events.type', $value);
             }
         });
 
