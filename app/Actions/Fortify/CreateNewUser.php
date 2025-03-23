@@ -40,8 +40,6 @@ class CreateNewUser implements CreatesNewUsers
 
         $casteller = CastellerConfig::where('api_token', $input['token'])->first()->getCasteller();
 
-        Log::info(array($casteller));
-
         $userApi = ApiUser::create([
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
