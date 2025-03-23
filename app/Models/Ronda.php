@@ -6,6 +6,8 @@ use App\Traits\FilterableTrait;
 use App\Traits\TimeStampsGetterTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ronda extends Model
 {
@@ -13,11 +15,15 @@ class Ronda extends Model
     use HasFactory;
     use TimeStampsGetterTrait;
 
+    protected $connection = 'mysql';
+
     protected $table = 'rondes';
 
     protected $primaryKey = 'id_ronda';
 
     public $timestamps = true;
+
+    protected static $filterClass = \App\Services\Filters\EventRondesFilter::class;
 
     protected $fillable = ['event_id', 'board_event_id', 'ronda'];
 
@@ -25,15 +31,15 @@ class Ronda extends Model
 
 //    protected static $filterClass = \App\Services\Filters\EventRondesFilter::class;
 
-    // public function event(): BelongsTo
-    // {
-    //     return $this->belongsTo(Event::class, 'event_id', 'id_event');
-    // }
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'event_id', 'id_event');
+    }
 
-    // public function boardEvent(): HasOne
-    // {
-    //     return $this->hasOne(BoardEvent::class, 'id', 'board_event_id');
-    // }
+    public function boardEvent(): HasOne
+    {
+        return $this->hasOne(BoardEvent::class, 'id', 'board_event_id');
+    }
 
     public function getId(): int
     {
