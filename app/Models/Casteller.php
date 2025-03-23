@@ -34,10 +34,10 @@ class Casteller extends Model
 
     // Relations
 
-    // public function apiUsers(): ?BelongsToMany
-    // {
-    //     return $this->belongsToMany(ApiUser::class, env('DB_DATABASE_API').'.casteller_api_user', 'casteller_id', 'api_user_id');
-    // }
+    public function apiUsers(): ?BelongsToMany
+    {
+         return $this->belongsToMany(ApiUser::class, 'casteller_api_user', 'casteller_id', 'api_user_id');
+    }
 
     public function castellerConfig(): HasOne
     {
