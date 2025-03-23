@@ -30,7 +30,6 @@ abstract class AbstractStateProvider implements ProviderInterface
         } catch (\Exception $e) {
             Log::debug('Error getting the authenticated user: ' . $e->getMessage());
         }
-
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
