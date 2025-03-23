@@ -75,15 +75,14 @@ class ApiUser extends Authenticatable
     // Relations
     public function castellers(): Collection
     {
-         return DB::table('casteller_api_user')->where('api_user_id', $this->id_api_user)->get();
+        return DB::table('casteller_api_user')->where('api_user_id', $this->id_api_user)->get();
     }
 
     // TODO: This is not correct, fix the relation
     public function getCastellerActive(): ?Casteller
     {
-        $casteller = $this->castellers()->firstOrFail();
-
-        return ($casteller) ? Casteller::find($casteller->getId()) : null ;
-        return Casteller::find($idCasteller);
+        $castellerId = ApiUser::find(1)->castellers()->firstOrFail()->casteller_id;
+        return ($castellerId) ? Casteller::find($castellerId) : null ;
+        //return Casteller::where('id_casteller', $this->id_api_user)->first();
     }
 }
