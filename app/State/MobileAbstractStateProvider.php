@@ -34,14 +34,15 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
             Log::debug('Error getting the authenticated user: ' . $e->getMessage());
         }
 
-        if (is_null($this->casteller)) {
-            abort(404, 'Casteller not found');
-        }
-
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
+
+        if (is_null($this->casteller)) {
+            abort(404, 'Casteller not found');
+        }
+        
         $this->modelClassDto = $operation->getClass();
         $this->modelClass = "\\App\\Models\\".$this->modelClassDto::MODEL_CLASS;
 
