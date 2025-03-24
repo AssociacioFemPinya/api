@@ -12,7 +12,11 @@ final class MobileRondesStateProvider extends MobileAbstractStateProvider
 {
     protected function getModels(): Collection
     {
-        $nextEvent = Event::filter($this->colla)->liveOrUpcoming()->visible()->eloquentBuilder()
+        $nextEvent = Event::filter($this->colla)
+        ->liveOrUpcoming()
+        ->visible()
+        ->with('rondes')
+        ->eloquentBuilder()
         ->orderBy('start_date', 'asc')
         ->first();
 
@@ -28,6 +32,7 @@ final class MobileRondesStateProvider extends MobileAbstractStateProvider
         $model = $this->modelClass::filter($this->colla)
                 ->withId((int)$id)
                 ->with('boardEvent')
+                ->with('boardEvent.board')
                 ->eloquentBuilder()->firstOrFail();
 
         return $this->modelClassDto::fromModel($model);

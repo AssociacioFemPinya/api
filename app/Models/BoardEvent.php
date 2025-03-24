@@ -16,6 +16,8 @@ class BoardEvent extends Model
     use FilterableTrait;
     use TimeStampsGetterTrait;
 
+    protected $connection = 'mysql';
+
     protected $table = 'board_event';
 
     protected $primaryKey = 'id';
@@ -30,10 +32,10 @@ class BoardEvent extends Model
          return $this->hasOne(Event::class, 'id_event', 'event_id');
     }
 
-    // public function board(): HasOne
-    // {
-    //     return $this->hasOne(Board::class, 'id_board', 'board_id');
-    // }
+    public function board(): HasOne
+    {
+        return $this->hasOne(Board::class, 'id_board', 'board_id');
+    }
 
     // public function boardPosition(): HasMany
     // {
@@ -86,15 +88,15 @@ class BoardEvent extends Model
     //     return Humans::parseDate($this->getAttribute('updated_at'), $shortDate);
     // }
 
-    // public function getName(): ?string
-    // {
-    //     return $this->getAttribute('name');
-    // }
+     public function getName(): ?string
+    {
+        return $this->getAttribute('name');
+    }
 
-    // public function getDisplayName(): ?string
-    // {
-    //     return ($this->getAttribute('name')) ?: $this->getBoard()->getName();
-    // }
+    public function getDisplayName(): ?string
+    {
+        return ($this->getAttribute('name')) ?: $this->board->getName();
+    }
 
     // public function getRonda(): ?Ronda
     // {

@@ -39,7 +39,7 @@ class MobileRondaDto
             //publicUrl: $ronda->getBoardEvent()->getPublicUrl(), // TODO: get public url from event
             publicUrl: "https://app.fempinya.cat/public/display/AireNou/WWN5Wk9aTnl4Q3FHUTE5bklsTkdCOFEvQ1BLWVB4M1BveVpRYlNJbkE1bDZ2SVBNTUlIbzI3S1RXUGRlVlBsUQ==",
             ronda: $ronda->ronda,
-            name: $ronda->boardEvent->name
+            name: $ronda->boardEvent->getDisplayName()
         );
         return $dto;
     }
