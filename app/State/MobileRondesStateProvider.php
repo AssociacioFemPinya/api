@@ -25,9 +25,10 @@ final class MobileRondesStateProvider extends MobileAbstractStateProvider
     {
         $id = $uriVariables['id'] ?? null;
 
-        $model = $this->modelClass::filter($this->colla)->withId((int)$id)->eloquentBuilder()->firstOrFail();
-
-        //$model = $this->modelClass::where('events.colla_id', $this->colla->getId())->findOrFail($id);
+        $model = $this->modelClass::filter($this->colla)
+                ->withId((int)$id)
+                ->with('boardEvent')
+                ->eloquentBuilder()->firstOrFail();
 
         return $this->modelClassDto::fromModel($model);
     }

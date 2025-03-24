@@ -26,6 +26,8 @@ class MobileRondaDto
         public ?string $eventName = '',
         public ?string $publicUrl = '',
         public ?string $ronda = null,
+        public ?string $name = '',
+
     ) {
     }
 
@@ -33,10 +35,11 @@ class MobileRondaDto
     {
         $dto = new self(
             id: $ronda->getId(),
-            eventName: $ronda->eventName,
+            eventName: $ronda->event->name,
             //publicUrl: $ronda->getBoardEvent()->getPublicUrl(), // TODO: get public url from event
             publicUrl: "https://app.fempinya.cat/public/display/AireNou/WWN5Wk9aTnl4Q3FHUTE5bklsTkdCOFEvQ1BLWVB4M1BveVpRYlNJbkE1bDZ2SVBNTUlIbzI3S1RXUGRlVlBsUQ==",
             ronda: $ronda->ronda,
+            name: $ronda->boardEvent->name
         );
         return $dto;
     }

@@ -24,11 +24,11 @@ class BoardEvent extends Model
 
     // protected static $filterClass = \App\Services\Filters\EventBoardsFilter::class;
 
-    // //Relations
-    // public function event(): HasOne
-    // {
-    //     return $this->hasOne(Event::class, 'id_event', 'event_id');
-    // }
+    // Relations
+    public function event(): HasOne
+    {
+         return $this->hasOne(Event::class, 'id_event', 'event_id');
+    }
 
     // public function board(): HasOne
     // {
@@ -40,10 +40,10 @@ class BoardEvent extends Model
     //     return $this->hasMany(BoardPosition::class, 'board_event_id', 'id');
     // }
 
-    // public function ronda(): ?HasOne
-    // {
-    //     return $this->hasOne(Ronda::class, 'board_event_id', 'id');
-    // }
+    public function ronda(): ?HasOne
+    {
+        return $this->hasOne(Ronda::class, 'board_event_id', 'id');
+    }
 
     // //Properties
     // public function getId(): int
