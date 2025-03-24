@@ -17,9 +17,13 @@ final class EventsStateProvider extends AbstractStateProvider
             ->visible()
             ->withCastellerTags($this->casteller->tagsArray('id_tag'));
 
-            if (array_key_exists('type', $this->parameters)) {
-                $eventsFilter->withType($this->parameters['type']['value']);
-            }
+            // Apply filters based on params
+            foreach ($this->parameters as $key => $value) {
+                match ($key) {
+                    'type' => $eventsFilter->withTypes([$value]),
+                    default => null,
+                };
+            } 
 
             return $eventsFilter->eloquentBuilder()->get();
 
