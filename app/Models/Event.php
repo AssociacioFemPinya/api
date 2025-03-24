@@ -77,4 +77,9 @@ class Event extends Model
         return $this->hasMany(Ronda::class, 'event_id', 'id_event');
     }
 
+    public function boardsEvent(): ?HasMany
+    {
+        return $this->hasMany(BoardEvent::class, 'event_id', 'id_event');
+    }
+
 }

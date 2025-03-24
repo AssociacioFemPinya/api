@@ -48,10 +48,10 @@ class BoardEvent extends Model
     }
 
     // //Properties
-    // public function getId(): int
-    // {
-    //     return $this->getAttribute('id');
-    // }
+    public function getId(): int
+    {
+    return $this->getAttribute('id');
+    }
 
     // public function getEventId(): int
     // {
@@ -105,8 +105,8 @@ class BoardEvent extends Model
 
     public function getPublicUrl($castellerId = null): ?string
     {
-        $colla = $this->getEvent()->getColla();
-        $encryptor = new EncryptorAes256($colla->getConfig()->getAes256KeyPublic());
+        $colla = $this->event->colla;
+        $encryptor = new EncryptorAes256($colla->config->getAes256KeyPublic());
         $toEncrypt = [
             'collaId' => $colla->getId(),
             'boardEventId' => $this->getId(),

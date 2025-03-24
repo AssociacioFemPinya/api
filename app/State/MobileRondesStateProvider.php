@@ -16,13 +16,14 @@ final class MobileRondesStateProvider extends MobileAbstractStateProvider
         ->liveOrUpcoming()
         ->visible()
         ->with('rondes')
+        ->with('colla')
+        ->with('boardsEvent')
         ->eloquentBuilder()
         ->orderBy('start_date', 'asc')
-        ->first();
+        ->firstOrFail();
 
-        return $nextEvent->rondes()->get()->each(function ($ronda) use ($nextEvent) {
-            $ronda->eventName = $nextEvent->title;
-        });
+        return $nextEvent->rondes;
+
     }
 
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
@@ -33,7 +34,10 @@ final class MobileRondesStateProvider extends MobileAbstractStateProvider
                 ->withId((int)$id)
                 ->with('boardEvent')
                 ->with('boardEvent.board')
-                ->eloquentBuilder()->firstOrFail();
+                ->with('event')
+                ->with('event.colla')
+                ->eloquentBuilder()
+                ->firstOrFail();
 
         return $this->modelClassDto::fromModel($model);
     }
