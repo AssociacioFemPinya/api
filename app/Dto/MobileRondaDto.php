@@ -24,7 +24,7 @@ class MobileRondaDto
     public function __construct(
         public ?int $id = null,
         public ?string $publicUrl = '',
-        public ?string $ronda = null,
+        public ?int $ronda = null,
         public ?string $name = '',
 
     ) {
