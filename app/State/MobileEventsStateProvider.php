@@ -50,9 +50,6 @@ final class MobileEventsStateProvider extends MobileAbstractStateProvider
     protected function itemProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $id = $uriVariables['id'] ?? null;
-        if (is_null($id)) {
-            abort(404, 'Event ID is required');
-        }
 
         $event = Event::leftJoin('attendance', function ($join) {
             $join->on('events.id_event', '=', 'attendance.event_id')
