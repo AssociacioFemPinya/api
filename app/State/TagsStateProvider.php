@@ -6,7 +6,6 @@ namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
 use App\Models\Tag;
-use Illuminate\Support\Facades\Log;
 
 final class TagsStateProvider extends AbstractStateProvider
 {
@@ -18,14 +17,14 @@ final class TagsStateProvider extends AbstractStateProvider
         if (!is_null($this->casteller)) {
             $tags->where('colla_id', $this->colla->getId());
         }
-        
+
         // Apply filters based on params
         foreach ($this->parameters as $key => $value) {
             match ($key) {
                 'type' => $tags->where('type', (string)$value),
                 default => null,
             };
-        }  
+        }
 
         return $tags->get();
     }

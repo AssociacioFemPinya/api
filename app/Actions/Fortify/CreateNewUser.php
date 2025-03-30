@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use App\Models\CastellerConfig;
-use Illuminate\Support\Facades\Log;
 
 class CreateNewUser implements CreatesNewUsers
 {

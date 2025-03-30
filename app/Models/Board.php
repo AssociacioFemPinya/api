@@ -137,10 +137,10 @@ class Board extends Model
         return $this->belongsToMany(Event::class, 'board_event', 'board_id', 'event_id')->withTimestamps();
     }
 
-   /* public function boardPosition(): HasMany
-    {
-        return $this->hasMany(BoardPosition::class, 'board_id', 'id_board');
-    }*/
+    /* public function boardPosition(): HasMany
+     {
+         return $this->hasMany(BoardPosition::class, 'board_id', 'id_board');
+     }*/
 
     public function boardEvent(): HasMany
     {

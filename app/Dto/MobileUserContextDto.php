@@ -4,9 +4,6 @@ namespace App\Dto;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use App\Models\Notification;
-use App\State\MobileNotificationsStateProvider;
 use App\State\MobileUserContextStateProvider;
 
 #[ApiResource(
@@ -19,7 +16,6 @@ use App\State\MobileUserContextStateProvider;
 
 class MobileUserContextDto
 {
-
     public const MODEL_CLASS = '';
 
     public function __construct(
@@ -38,7 +34,7 @@ class MobileUserContextDto
             casteller_active_alias: $apiUserInfo[1],
             linked_castellers: $apiUserInfo[2],
             boards_enabled: $apiUserInfo[3]
-                );
+        );
         return $dto;
     }
 

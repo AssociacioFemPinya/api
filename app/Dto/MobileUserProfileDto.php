@@ -17,7 +17,6 @@ use App\State\MobileUserProfileStateProvider;
 
 class MobileUserProfileDto
 {
-
     public const MODEL_CLASS = '';
 
     public function __construct(

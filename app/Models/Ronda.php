@@ -29,7 +29,7 @@ class Ronda extends Model
 
     protected $guarded = ['id_ronda', 'created_at', 'updated_at'];
 
-//    protected static $filterClass = \App\Services\Filters\EventRondesFilter::class;
+    //    protected static $filterClass = \App\Services\Filters\EventRondesFilter::class;
 
     public function event(): BelongsTo
     {
