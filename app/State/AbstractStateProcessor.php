@@ -18,24 +18,25 @@ abstract class AbstractStateProcessor implements ProcessorInterface
 {
     protected $casteller = null;
     protected $colla = null;
+    protected $apiUser = null;
 
     public function __construct(
         protected PersistProcessor $persistProcessor,
         protected RemoveProcessor $removeProcessor
     ) {
         try {
-            Log::info('AbstractStateProcessor');
             // we get the authenticatedUserId by Token and then we retrieve the actual ApiUser
             if (!is_null($identifiedUserId = Auth::guard('sanctum')->id())) {
                 // Cache key could be a combination of user ID to make it unique per user
-                $castellerCacheKey = "casteller_active_{$identifiedUserId}";
+                $cacheKey = "casteller_active_{$identifiedUserId}";
                 $collaCacheKey = "colla_active_{$identifiedUserId}";
-
+    
+                $this->apiUser = ApiUser::find($identifiedUserId);
+    
                 // Try to retrieve from the cache first
-                $this->casteller = Cache::remember($castellerCacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
+                $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                     // If not found in cache, retrieve from DB
-                    $apiUser = ApiUser::find($identifiedUserId);
-                    return $apiUser ? $apiUser->getCastellerActive() : null;
+                    return $this->apiUser ? $this->apiUser->getCastellerActive() : null;
                 });
                 $this->colla = Cache::remember($collaCacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
                     // If not found in cache, retrieve from DB
