@@ -23,9 +23,10 @@ class MobileRondaDto
 
     public function __construct(
         public ?int $id = null,
-        public ?string $eventName = '',
         public ?string $publicUrl = '',
-        public ?string $ronda = null,
+        public ?int $ronda = null,
+        public ?string $name = '',
+
     ) {
     }
 
@@ -33,10 +34,10 @@ class MobileRondaDto
     {
         $dto = new self(
             id: $ronda->getId(),
-            eventName: $ronda->eventName,
-            //publicUrl: $ronda->getBoardEvent()->getPublicUrl(), // TODO: get public url from event
-            publicUrl: "https://app.fempinya.cat/public/display/AireNou/WWN5Wk9aTnl4Q3FHUTE5bklsTkdCOFEvQ1BLWVB4M1BveVpRYlNJbkE1bDZ2SVBNTUlIbzI3S1RXUGRlVlBsUQ==",
+            publicUrl: $ronda->boardEvent->getPublicUrl(),
+            //publicUrl: "https://app.fempinya.cat/public/display/AireNou/WWN5Wk9aTnl4Q3FHUTE5bklsTkdCOFEvQ1BLWVB4M1BveVpRYlNJbkE1bDZ2SVBNTUlIbzI3S1RXUGRlVlBsUQ==",
             ronda: $ronda->ronda,
+            name: $ronda->boardEvent->getDisplayName()
         );
         return $dto;
     }

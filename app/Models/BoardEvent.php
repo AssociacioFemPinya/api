@@ -16,6 +16,8 @@ class BoardEvent extends Model
     use FilterableTrait;
     use TimeStampsGetterTrait;
 
+    protected $connection = 'mysql';
+
     protected $table = 'board_event';
 
     protected $primaryKey = 'id';
@@ -24,32 +26,32 @@ class BoardEvent extends Model
 
     // protected static $filterClass = \App\Services\Filters\EventBoardsFilter::class;
 
-    // //Relations
-    // public function event(): HasOne
-    // {
-    //     return $this->hasOne(Event::class, 'id_event', 'event_id');
-    // }
+    // Relations
+    public function event(): HasOne
+    {
+         return $this->hasOne(Event::class, 'id_event', 'event_id');
+    }
 
-    // public function board(): HasOne
-    // {
-    //     return $this->hasOne(Board::class, 'id_board', 'board_id');
-    // }
+    public function board(): HasOne
+    {
+        return $this->hasOne(Board::class, 'id_board', 'board_id');
+    }
 
     // public function boardPosition(): HasMany
     // {
     //     return $this->hasMany(BoardPosition::class, 'board_event_id', 'id');
     // }
 
-    // public function ronda(): ?HasOne
-    // {
-    //     return $this->hasOne(Ronda::class, 'board_event_id', 'id');
-    // }
+    public function ronda(): ?HasOne
+    {
+        return $this->hasOne(Ronda::class, 'board_event_id', 'id');
+    }
 
     // //Properties
-    // public function getId(): int
-    // {
-    //     return $this->getAttribute('id');
-    // }
+    public function getId(): int
+    {
+    return $this->getAttribute('id');
+    }
 
     // public function getEventId(): int
     // {
@@ -86,15 +88,15 @@ class BoardEvent extends Model
     //     return Humans::parseDate($this->getAttribute('updated_at'), $shortDate);
     // }
 
-    // public function getName(): ?string
-    // {
-    //     return $this->getAttribute('name');
-    // }
+     public function getName(): ?string
+    {
+        return $this->getAttribute('name');
+    }
 
-    // public function getDisplayName(): ?string
-    // {
-    //     return ($this->getAttribute('name')) ?: $this->getBoard()->getName();
-    // }
+    public function getDisplayName(): ?string
+    {
+        return ($this->getAttribute('name')) ?: $this->board->getName();
+    }
 
     // public function getRonda(): ?Ronda
     // {
@@ -103,8 +105,8 @@ class BoardEvent extends Model
 
     public function getPublicUrl($castellerId = null): ?string
     {
-        $colla = $this->getEvent()->getColla();
-        $encryptor = new EncryptorAes256($colla->getConfig()->getAes256KeyPublic());
+        $colla = $this->event->colla;
+        $encryptor = new EncryptorAes256($colla->config->getAes256KeyPublic());
         $toEncrypt = [
             'collaId' => $colla->getId(),
             'boardEventId' => $this->getId(),
