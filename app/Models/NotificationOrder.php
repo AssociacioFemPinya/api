@@ -24,13 +24,13 @@ class NotificationOrder extends Model
     /** Get the casteller that will be notified by this notification order */
     public function getCasteller(): Casteller
     {
-        return $this->casteller()->get()->first();
+        return $this->casteller()->first();
     }
 
     /** Get the notification that generated this notification_order */
     public function getNotification(): Notification
     {
-        return $this->notification()->get()->first();
+        return $this->notification()->first();
     }
 
     public function notification(): BelongsTo

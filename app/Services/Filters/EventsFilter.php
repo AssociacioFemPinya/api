@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 class EventsFilter extends BaseFilter
 {
     use DatatablesFilterTrait;
-    private Builder $eloquentBuilder;
+    protected Builder $eloquentBuilder;
 
     protected $connection = 'mysql'; // TODO: can we get this from event model?
 

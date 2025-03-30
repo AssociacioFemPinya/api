@@ -10,7 +10,7 @@ abstract class BaseFilter implements \IteratorAggregate
 {
     private Colla $colla;
 
-    private Builder $eloquentBuilder;
+    protected Builder $eloquentBuilder;
 
     public function __construct(Builder $eloquentBuilder)
     {

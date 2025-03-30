@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Enums\NotificationTypeEnum;
 use App\Models\ApiUser;
 
-use function PHPSTORM_META\map;
+// PhpStorm meta is only for IDE, not needed at runtime
 
 final class MobileUserContextStateProvider extends MobileAbstractStateProvider
 {

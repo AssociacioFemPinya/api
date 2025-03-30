@@ -1,0 +1,20 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 1
+    paths:
+        - app
+    excludePaths:
+        - app/Exceptions/*
+        - app/Providers/*
+    
+    ignoreErrors:
+        # Ignore specific static property errors in FilterableTrait
+        - '#Access to an undefined static property static\(App\\Models\\Attendance\)::\$filterClass#'
+        - '#Access to an undefined static property static\(App\\Models\\BoardEvent\)::\$filterClass#'
+        
+        # Uncomment these patterns if needed in the future
+        # - '#Access to an undefined property App\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9_]+#'
+        # - '#Call to an undefined method App\\Models\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)#'
+        # - '#Call to an undefined static method App\\Models\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)#'

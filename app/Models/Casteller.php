@@ -62,7 +62,7 @@ class Casteller extends Model
 
     public function getTags(): Collection
     {
-        return $this->tags->where('type', TypeTags::Castellers()->value());
+        return $this->tags ?? $this->tags()->where('type', TypeTags::Castellers()->value())->get();
     }
 
     public function getId(): int
