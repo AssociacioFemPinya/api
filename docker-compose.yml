@@ -63,6 +63,7 @@ networks:
     sail:
         driver: bridge
         name: sail
+        external: true
         
 #Volumes
 volumes:
