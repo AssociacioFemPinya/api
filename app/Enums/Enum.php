@@ -26,11 +26,13 @@ abstract class Enum
         $snake = (strtolower($name) == $name) ? $name : strtolower(preg_replace('/([^A-Z\s])([A-Z])/', '$1_$2', $name));
         $value = constant(static::class.'::'.strtoupper($snake));
 
+        /** @phpstan-ignore-next-line */
         return new static($value);
     }
 
     public static function fromString(string $value): self
     {
+        /** @phpstan-ignore-next-line */
         return new static($value);
     }
 

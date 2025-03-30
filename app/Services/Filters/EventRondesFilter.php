@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EventRondesFilter extends BaseFilter
 {
-    private Builder $eloquentBuilder;
+    protected Builder $eloquentBuilder;
 
     use DatatablesFilterTrait;
 
