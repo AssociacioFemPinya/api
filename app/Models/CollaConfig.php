@@ -126,4 +126,29 @@ final class CollaConfig extends Model
     {
         return $this->getAttribute('member_edit_personal');
     }
+
+    public function getPublicDisplayEnabled(): bool
+    {
+        return $this->getAttribute('public_display_enabled');
+    }
+    
+    public function getPublicDisplayUrl($castellerId = null): ?string
+    {
+        if (! $this->getPublicDisplayEnabled()) {
+            return '';
+        }
+
+        $encryptor = new EncryptorAes256($this->getAes256KeyPublic());
+        $toEncrypt = [
+            'collaId' => $this->getCollaId(),
+            'publicDisplay' => true,
+        ];
+
+        if ($castellerId != null) {
+            $toEncrypt['castellerId'] = $castellerId;
+        }
+        $toEncrypt = json_encode($toEncrypt);
+
+        return route('public.display', ['shortName' => $this->getColla()->getShortName(), 'token' => $encryptor->encrypt($toEncrypt)]);
+    }
 }
