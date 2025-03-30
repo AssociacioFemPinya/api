@@ -34,11 +34,11 @@ abstract class AbstractStateProcessor implements ProcessorInterface
                 $this->apiUser = ApiUser::find($identifiedUserId);
     
                 // Try to retrieve from the cache first
-                $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
+                $this->casteller = Cache::remember($cacheKey, now()->addMinutes(10), function () {
                     // If not found in cache, retrieve from DB
                     return $this->apiUser ? $this->apiUser->getCastellerActive() : null;
                 });
-                $this->colla = Cache::remember($collaCacheKey, now()->addMinutes(10), function () use ($identifiedUserId) {
+                $this->colla = Cache::remember($collaCacheKey, now()->addMinutes(10), function () {
                     // If not found in cache, retrieve from DB
                     return $this->casteller->getColla();
                 });

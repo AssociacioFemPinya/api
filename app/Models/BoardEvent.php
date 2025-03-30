@@ -50,7 +50,7 @@ class BoardEvent extends Model
     // //Properties
     public function getId(): int
     {
-    return $this->getAttribute('id');
+        return $this->getAttribute('id');
     }
 
     // public function getEventId(): int
