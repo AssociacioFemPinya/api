@@ -131,7 +131,7 @@ final class CollaConfig extends Model
     {
         return $this->getAttribute('public_display_enabled');
     }
-    
+
     public function getPublicDisplayUrl($castellerId = null): ?string
     {
         if (! $this->getPublicDisplayEnabled()) {

@@ -35,7 +35,7 @@ class Casteller extends Model
 
     public function apiUsers(): ?BelongsToMany
     {
-         return $this->belongsToMany(ApiUser::class, 'casteller_api_user', 'casteller_id', 'api_user_id');
+        return $this->belongsToMany(ApiUser::class, 'casteller_api_user', 'casteller_id', 'api_user_id');
     }
 
     public function castellerConfig(): HasOne
@@ -84,7 +84,7 @@ class Casteller extends Model
     {
         return $this->getAlias();
     }
-    
+
     public function getAlias(): string
     {
         return $this->getAttribute('alias');

@@ -16,7 +16,6 @@ use App\State\NotificationsStateProvider;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\UrlGenerator;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     /**

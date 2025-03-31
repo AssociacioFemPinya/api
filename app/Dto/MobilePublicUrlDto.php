@@ -15,7 +15,6 @@ use App\State\MobilePublicUrlStateProvider;
 
 class MobilePublicUrlDto
 {
-
     public const MODEL_CLASS = '';
 
     public function __construct(
