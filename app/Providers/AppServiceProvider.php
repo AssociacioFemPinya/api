@@ -12,6 +12,7 @@ use App\State\MobileRondesStateProvider;
 use App\State\MobileNotificationsStateProvider;
 use App\State\MobilePublicUrlStateProvider;
 use App\State\MobileUserContextStateProvider;
+use App\State\MobileUserProfileStateProvider;
 use App\State\NotificationsStateProvider;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\UrlGenerator;
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->tag(MobileUserContextStateProvider::class, ProviderInterface::class);
         $this->app->tag(MobilePublicUrlStateProvider::class, ProviderInterface::class);
 
+        $this->app->tag(MobileUserProfileStateProvider::class, ProviderInterface::class);
 
         // MOBILE PROCESSORS
 
