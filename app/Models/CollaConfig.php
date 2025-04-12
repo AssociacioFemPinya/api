@@ -151,5 +151,6 @@ final class CollaConfig extends Model
         // url hardcoded to avoid duplicate files from Fempina3
         return '/public/display/'.$this->getColla()->getShortName().'/'.$encryptor->encrypt($toEncrypt);
         //return route('public.display', ['shortName' => $this->getColla()->getShortName(), 'token' => $encryptor->encrypt($toEncrypt)]);
+        
     }
 }
