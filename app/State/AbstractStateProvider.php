@@ -38,7 +38,7 @@ abstract class AbstractStateProvider implements ProviderInterface
         if (is_null($this->casteller)) {
             abort(404, 'Casteller not found');
         }
-        
+
         $this->parameters = $this->parseParameters($context);
 
         if ($operation instanceof CollectionOperationInterface) {

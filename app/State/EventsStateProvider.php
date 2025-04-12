@@ -23,7 +23,7 @@ final class EventsStateProvider extends AbstractStateProvider
                     'type' => $eventsFilter->withTypes([$value]),
                     default => null,
                 };
-            } 
+            }
 
             return $eventsFilter->eloquentBuilder()->get();
 

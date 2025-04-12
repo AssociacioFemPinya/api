@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Colla;
 use App\Helpers\Encryptors\EncryptorAes256;
 use App\Helpers\Humans;
 use App\Traits\FilterableTrait;
@@ -29,7 +28,7 @@ class BoardEvent extends Model
     // Relations
     public function event(): HasOne
     {
-         return $this->hasOne(Event::class, 'id_event', 'event_id');
+        return $this->hasOne(Event::class, 'id_event', 'event_id');
     }
 
     public function board(): HasOne
@@ -50,7 +49,7 @@ class BoardEvent extends Model
     // //Properties
     public function getId(): int
     {
-    return $this->getAttribute('id');
+        return $this->getAttribute('id');
     }
 
     // public function getEventId(): int
@@ -88,7 +87,7 @@ class BoardEvent extends Model
     //     return Humans::parseDate($this->getAttribute('updated_at'), $shortDate);
     // }
 
-     public function getName(): ?string
+    public function getName(): ?string
     {
         return $this->getAttribute('name');
     }

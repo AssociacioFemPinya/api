@@ -12,9 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EventRondesFilter extends BaseFilter
 {
-    private Builder $eloquentBuilder;
-
     use DatatablesFilterTrait;
+    private Builder $eloquentBuilder;
 
     public function __construct(Colla $colla)
     {

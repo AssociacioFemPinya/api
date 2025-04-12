@@ -42,7 +42,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
         if (is_null($this->casteller)) {
             abort(404, 'Casteller not found');
         }
-        
+
         $this->modelClassDto = $operation->getClass();
         $this->modelClass = "\\App\\Models\\".$this->modelClassDto::MODEL_CLASS;
 
@@ -70,7 +70,7 @@ abstract class MobileAbstractStateProvider implements ProviderInterface
 
     protected function collectionProvider(Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        $models = [];  
+        $models = [];
         foreach ($this->getModels() as $model) {
 
             $models[] = $this->modelClassDto::fromModel($model);

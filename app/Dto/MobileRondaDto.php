@@ -26,7 +26,6 @@ class MobileRondaDto
         public ?string $publicUrl = '',
         public ?int $ronda = null,
         public ?string $name = '',
-
     ) {
     }
 
