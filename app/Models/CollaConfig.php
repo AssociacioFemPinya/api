@@ -148,9 +148,12 @@ final class CollaConfig extends Model
             $toEncrypt['castellerId'] = $castellerId;
         }
         $toEncrypt = json_encode($toEncrypt);
-
-        // url hardcoded to avoid duplicate files from Fempina3
-        return '/public/display/'.$this->getColla()->getShortName().'/'.$encryptor->encrypt($toEncrypt);
+        
+        $appUrl = env('APP_URL');
+        
+        // url hardcoded to avoid duplicate files from Fempinya3
+        return "{$appUrl}/public/display/".$this->getColla()->getShortName()."/".$encryptor->encrypt($toEncrypt);
+        
         //return route('public.display', ['shortName' => $this->getColla()->getShortName(), 'token' => $encryptor->encrypt($toEncrypt)]);
         
     }
