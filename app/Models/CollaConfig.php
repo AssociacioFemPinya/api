@@ -7,6 +7,7 @@ use App\Models\Colla;
 use App\Traits\TimeStampsGetterTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Helpers\Encryptors\EncryptorAes256;
 
 final class CollaConfig extends Model
 {
