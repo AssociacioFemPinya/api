@@ -149,7 +149,7 @@ final class CollaConfig extends Model
         }
         $toEncrypt = json_encode($toEncrypt);
         
-        $appUrl = env('APP_URL');
+        $appUrl = env('WEB_URL');
         
         // url hardcoded to avoid duplicate files from Fempinya3
         return "{$appUrl}/public/display/".$this->getColla()->getShortName()."/".$encryptor->encrypt($toEncrypt);

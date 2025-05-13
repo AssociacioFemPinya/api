@@ -115,7 +115,7 @@ class BoardEvent extends Model
         }
         $toEncrypt = json_encode($toEncrypt);
 
-        $appUrl = env('APP_URL');
+        $appUrl = env('WEB_URL');
         $shortName = $colla->getShortName();
         $token = $encryptor->encrypt($toEncrypt);
         return "{$appUrl}/public/display/{$shortName}?token={$token}";
